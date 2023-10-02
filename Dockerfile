@@ -13,8 +13,9 @@ RUN yarn install
 # Copy source code
 COPY . .
 
-# Expose port 3000
+# Expose port 3000 and 4173
 EXPOSE 3000
+EXPOSE 4173
 
 # Start the app
 CMD [ "yarn", "start" , "--host"]
