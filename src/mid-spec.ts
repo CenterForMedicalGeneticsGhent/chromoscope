@@ -1,7 +1,9 @@
+//test
 import { SpecOption } from './main-spec';
 import { SingleTrack, View } from 'gosling.js/dist/src/core/gosling.schema';
 import tracks from './track';
 import { driversToTsvUrl } from './utils';
+import gene_annotation from './track/gene_annotation';
 
 export default function getMidView(option: SpecOption): View[] {
     const {
@@ -127,6 +129,8 @@ export default function getMidView(option: SpecOption): View[] {
                     width,
                     height: 60
                 },
+                //tracks.gene_annotation(id,width,assembly),
+                tracks.cnv_ektenis(id,width),
                 ...(!vcf
                     ? []
                     : [tracks.mutation(id, vcf, vcfIndex, width, 60, 'mid'), tracks.boundary('mutation', 'mid')]),

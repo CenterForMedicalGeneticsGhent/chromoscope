@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY package.json yarn.lock ./
 
 # Install dependencies
-RUN yarn install
+# RUN yarn install
 
 # Copy source code
 COPY . .
@@ -18,5 +18,5 @@ EXPOSE 3000
 EXPOSE 4173
 
 # Start the app
-CMD [ "yarn", "start" , "--host"]
-
+CMD yarn install && \
+    yarn start --host
