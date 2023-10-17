@@ -1,19 +1,20 @@
 import { SingleTrack, OverlaidTracks } from 'gosling.js/dist/src/core/gosling.schema';
 import { TrackMode } from './index';
 
-const URL_BASE = "http://localhost:8989/api/v1/tileset_info/?d="
-const UUID_RAW = "test_109244_raw"
-const URL_RAW = URL_BASE+UUID_RAW
-
-export default function cnv_ektenis(
+export default function cnv(
     sampleId: string,
+    cnvUrl: string,
     width: number,
-): SingleTrack {
-    return {    
-        "mark": "rect",
+    height: number,
+    mode: TrackMode,
+): OverlaidTracks {
+    return {
+        id: `${sampleId}-${mode}-cnv-ektenis`,
+        title: mode === 'small' ? '' : 'Copy Number Variants (rect)',
+        style: { background: '#FFFFFF' },
         "data": {
             "type": "beddb",
-            "url": URL_RAW,
+            "url": cnvUrl,
             "genomicFields": [
                 {"index": 1, "name": "start"},
                 {"index": 2, "name": "end"}
@@ -25,35 +26,65 @@ export default function cnv_ektenis(
                 {"index": 5, "name": "priority", "type": "quantitative"},
             ]
         },
-        "x": {
-            "field": "start",
-            "type": "genomic",
-            "linkingId": "linking-with-brush",
-            "axis": "none",
+        mark: 'rect',
+        x: { field: 'start', type: 'genomic' },
+        xe: { field: 'end', type: 'genomic' },
+        y: { 
+            field: "r", 
+            type: 'quantitative', 
+            axis: 'right', 
+            grid: true, 
+            range: [0 + 10, height - 10],
+            domain: [-1.5,1.5],
         },
-        "xe": {
-            "field": "end",
-            "type": "genomic",
-        },
-        "dataTransform": [
+        alignment: 'overlay',
+        tracks: [
             {
-                "type": "filter",
-                "field": "r",
-                "inRange": [-0.35, 0.35],
+                size: { value: 1 },
+                dataTransform: [
+                    {
+                        type: "filter",
+                        field: "r",
+                        inRange: [-0.35, 0.35],
+                    },
+                ],
+            },
+            {
+                color: { value: '#0072B2' }, //Blue
+                stroke: { value: '#0072B2' }, //Blue
+                dataTransform: [
+                    {
+                        type: "filter",
+                        field: "r",
+                        inRange: [0.35, 100],
+                    },
+                ],
+            },
+            {   
+                color: { value:"#D45E00" }, //Red
+                stroke: { value:"#D45E00" }, //Red
+                dataTransform: [
+                    {
+                        type: "filter",
+                        field: "r",
+                        inRange: [-100, -0.35],
+                    },
+                ],
             },
         ],
-        "y":{
-            "field": "r",
-            "type": "quantitative",
-            "domain": [-1.6,1.6],
-        },
-        "size": {
-            "value": 1,
-        },
-        "strokeWidth": {
-            "value": 2,
-        },
+        tooltip: [
+            { field: "r", type: 'quantitative' },
+            { field: "exp", type: 'quantitative' },
+            { field: "chr", type: 'quantitative' },
+            { field: "start", type: 'quantitative' },
+            { field: "end", type: 'quantitative' },
+        ],
+        size: { value: 5 },
+        stroke: { value: '#808080' },
+        color: { value: '#808080' },
+        strokeWidth: { value: 2 },
+        opacity: { value: 0.7 },
         width,
-        height: 200,
-    }
+        height
+    };
 }

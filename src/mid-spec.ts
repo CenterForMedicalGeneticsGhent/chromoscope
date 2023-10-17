@@ -5,6 +5,10 @@ import tracks from './track';
 import { driversToTsvUrl } from './utils';
 import gene_annotation from './track/gene_annotation';
 
+const URL_BASE = "http://localhost:8989/api/v1/tileset_info/?d="
+const UUID_RAW = "test_109244_raw"
+const URL_RAW = URL_BASE+UUID_RAW
+
 export default function getMidView(option: SpecOption): View[] {
     const {
         id,
@@ -130,7 +134,7 @@ export default function getMidView(option: SpecOption): View[] {
                     height: 60
                 },
                 //tracks.gene_annotation(id,width,assembly),
-                tracks.cnv_ektenis(id,width),
+                tracks.cnv_ektenis(id, URL_RAW, width, 120, 'mid'),
                 ...(!vcf
                     ? []
                     : [tracks.mutation(id, vcf, vcfIndex, width, 60, 'mid'), tracks.boundary('mutation', 'mid')]),
