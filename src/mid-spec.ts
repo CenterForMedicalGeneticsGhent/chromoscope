@@ -135,6 +135,7 @@ export default function getMidView(option: SpecOption): View[] {
                 },
                 //tracks.gene_annotation(id,width,assembly),
                 tracks.cnv_ektenis(id, URL_RAW, width, 120, 'mid'),
+                tracks.cnv_ektenis_bar(id, URL_RAW, width, 120, 'mid'),
                 ...(!vcf
                     ? []
                     : [tracks.mutation(id, vcf, vcfIndex, width, 60, 'mid'), tracks.boundary('mutation', 'mid')]),

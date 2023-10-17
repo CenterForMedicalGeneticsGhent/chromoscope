@@ -9,8 +9,8 @@ export default function cnv(
     mode: TrackMode,
 ): OverlaidTracks {
     return {
-        id: `${sampleId}-${mode}-cnv-ektenis`,
-        title: mode === 'small' ? '' : 'Copy Number Variants (rect)',
+        id: `${sampleId}-${mode}-cnv-ektenis-bar`,
+        title: mode === 'small' ? '' : 'Copy Number Variants (bar)',
         style: { background: '#FFFFFF' },
         "data": {
             "type": "beddb",
@@ -32,15 +32,16 @@ export default function cnv(
         y: { 
             field: "r", 
             type: 'quantitative', 
-            axis: 'right', 
+            axis: 'none', 
             grid: true, 
             range: [0 + 10, height - 10],
-            domain: [-1.5,1.5],
+            domain: [-3.2,3.2],
         },
         alignment: 'overlay',
         tracks: [
             {
-                size: { value: 1 },
+                stroke: { value: '#808080' },
+                color: { value: '#808080' },
                 dataTransform: [
                     {
                         type: "filter",
@@ -79,9 +80,12 @@ export default function cnv(
             { field: "start", type: 'quantitative' },
             { field: "end", type: 'quantitative' },
         ],
-        size: { value: 2 },
-        stroke: { value: '#808080' },
-        color: { value: '#808080' },
+        size:{
+            field: "r",
+            type: "quantitative",
+            domain: [0,3],
+            range: [0, height],
+        },
         strokeWidth: { value: 2 },
         opacity: { value: 0.7 },
         width,
