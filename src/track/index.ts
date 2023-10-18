@@ -11,6 +11,7 @@ import gene_annotation from './gene_annotation';
 import gene_annotation_ektenis from './gene_annotation_ektenis';
 import cnv_ektenis from './cnv_ektenis';
 import cnv_ektenis_bar from './cnv_ektenis_bar';
+import baf_ektenis from "./baf_ektenis";
 
 export type TrackMode = 'small' | 'top' | 'mid';
 
@@ -28,4 +29,5 @@ export default {
     gene_annotation_ektenis,
     cnv_ektenis,
     cnv_ektenis_bar,
+    baf_ektenis,
 };
