@@ -20,6 +20,8 @@ import { EXTERNAL_THUMBNAILS } from './data/stevens-mpnst';
 import CancerSelector from './ui/cancer-selector';
 import HorizontalLine from './ui/horizontal-line';
 import SampleConfigForm from './ui/sample-config-form';
+import VivarCnvForm from './ui/vivar-cnv-form';
+import TabularTableDev from './ui/tabular-table-dev';
 import { BrowserDatabase } from './browser-log';
 import legend from './legend.png';
 
@@ -611,6 +613,7 @@ function App(props: RouteComponentProps) {
 
     return (
         <ErrorBoundary>
+            <TabularTableDev />
             <div
                 style={{ width: '100%', height: '100%' }}
                 onMouseMove={e => {
@@ -928,6 +931,17 @@ function App(props: RouteComponentProps) {
                                 />
                                 <HorizontalLine />
                                 <SampleConfigForm
+                                    onAdd={config => {
+                                        setFilteredSamples([
+                                            {
+                                                ...config,
+                                                group: 'default'
+                                            },
+                                            ...filteredSamples
+                                        ]);
+                                    }}
+                                />
+                                <VivarCnvForm
                                     onAdd={config => {
                                         setFilteredSamples([
                                             {
