@@ -75,8 +75,8 @@ export default function TabularTableDev() {
     // An array to store the data
     const data = [];
 
-    // A loop to generate 1024 rows of data
-    for (let i = 0; i < 1024; i++) {
+    // A loop to generate 1048576 rows of data
+    for (let i = 0; i < 1048576; i++) {
         // Generate a random name
         const name = randomName();
         // Generate a random age
@@ -97,15 +97,256 @@ export default function TabularTableDev() {
         data.push(row);
     }
 
+    //custom max min header filter
+    var minMaxFilterEditor = function(cell, onRendered, success, cancel, editorParams){
+
+        var end;
+
+        var container = document.createElement("span");
+
+        //create and style inputs
+        var start = document.createElement("input");
+        start.setAttribute("type", "number");
+        start.setAttribute("placeholder", "Min");
+        start.setAttribute("min", 0);
+        start.setAttribute("max", 100);
+        start.style.padding = "4px";
+        start.style.width = "50%";
+        start.style.boxSizing = "border-box";
+
+        start.value = cell.getValue();
+
+        function buildValues(){
+            success({
+                start:start.value,
+                end:end.value,
+            });
+        }
+
+        function keypress(e){
+            if(e.keyCode == 13){
+                buildValues();
+            }
+
+            if(e.keyCode == 27){
+                cancel();
+            }
+        }
+
+        end = start.cloneNode();
+        end.setAttribute("placeholder", "Max");
+
+        start.addEventListener("change", buildValues);
+        start.addEventListener("blur", buildValues);
+        start.addEventListener("keydown", keypress);
+
+        end.addEventListener("change", buildValues);
+        end.addEventListener("blur", buildValues);
+        end.addEventListener("keydown", keypress);
+
+
+        container.appendChild(start);
+        container.appendChild(end);
+
+        return container;
+    }
+
+    //custom max min filter function
+    function minMaxFilterFunction(headerValue, rowValue, rowData, filterParams){
+        //headerValue - the value of the header filter element
+        //rowValue - the value of the column in this row
+        //rowData - the data for the row being filtered
+        //filterParams - params object passed to the headerFilterFuncParams property
+
+            if(rowValue){
+                if(headerValue.start != ""){
+                    if(headerValue.end != ""){
+                        return rowValue >= headerValue.start && rowValue <= headerValue.end;
+                    }else{
+                        return rowValue >= headerValue.start;
+                    }
+                }else{
+                    if(headerValue.end != ""){
+                        return rowValue <= headerValue.end;
+                    }
+                }
+            }
+
+        return true; //must return a boolean, true if it passes the filter.
+    }
+
+    //custom list header filter
+    var listFilterEditor = function(cell, onRendered, success, cancel, editorParams){
+
+        var select;
+
+        var container = document.createElement("span");
+
+        //create and style select
+        select = document.createElement("select");
+        select.style.padding = "4px";
+        select.style.width = "100%";
+        select.style.boxSizing = "border-box";
+
+        //add options to select
+        var options = editorParams.values || {}; //get list of values from editorParams
+        Object.keys(options).forEach(function(key){
+            var option = document.createElement("option");
+            option.value = key;
+            option.text = options[key];
+            select.appendChild(option);
+        });
+
+        select.value = cell.getValue();
+
+        function buildValues(){
+            success(select.value);
+        }
+
+        function keypress(e){
+            if(e.keyCode == 13){
+                buildValues();
+            }
+
+            if(e.keyCode == 27){
+                cancel();
+            }
+        }
+
+        select.addEventListener("change", buildValues);
+        select.addEventListener("blur", buildValues);
+        select.addEventListener("keydown", keypress);
+
+        container.appendChild(select);
+
+        return container;
+    }
+
+    //custom list filter function
+    function listFilterFunction(headerValue, rowValue, rowData, filterParams){
+        //headerValue - the value of the header filter element
+        //rowValue - the value of the column in this row
+        //rowData - the data for the row being filtered
+        //filterParams - params object passed to the headerFilterFuncParams property
+
+        if(rowValue){
+            return rowValue == headerValue; //return true if the row value matches the header value
+        }
+
+        return true; //must return a boolean, true if it passes the filter.
+    }
+
+
+    //custom multi-select header filter
+    var multiSelectFilterEditor = function(cell, onRendered, success, cancel, editorParams){
+
+        var select;
+
+        var container = document.createElement("span");
+
+        //create and style select
+        select = document.createElement("select");
+        select.setAttribute("multiple", "multiple"); //enable multiple selection
+        select.style.padding = "4px";
+        select.style.width = "100%";
+        select.style.boxSizing = "border-box";
+
+        //add options to select
+        var options = editorParams.values || {}; //get list of values from editorParams
+        Object.keys(options).forEach(function(key){
+            var option = document.createElement("option");
+            option.value = key;
+            option.text = options[key];
+            select.appendChild(option);
+        });
+
+        //set initial selected values
+        var values = cell.getValue();
+        if(values && values.length){
+            values.forEach(function(value){
+                select.querySelector("option[value='" + value + "']").setAttribute("selected", "selected");
+            });
+        }
+
+        function buildValues(){
+            var selected = Array.from(select.querySelectorAll("option:checked")).map(function(option){
+                return option.value;
+            });
+
+            success(selected);
+        }
+
+        function keypress(e){
+            if(e.keyCode == 13){
+                buildValues();
+            }
+
+            if(e.keyCode == 27){
+                cancel();
+            }
+        }
+
+        select.addEventListener("change", buildValues);
+        select.addEventListener("blur", buildValues);
+        select.addEventListener("keydown", keypress);
+
+        container.appendChild(select);
+
+        return container;
+    }
+
+    //custom multi-select filter function
+    function multiSelectFilterFunction(headerValue, rowValue, rowData, filterParams){
+        //headerValue - the value of the header filter element
+        //rowValue - the value of the column in this row
+        //rowData - the data for the row being filtered
+        //filterParams - params object passed to the headerFilterFuncParams property
+
+        if(rowValue){
+            return headerValue.includes(rowValue); //return true if the row value is in the header value array
+        }
+
+        return true; //must return a boolean, true if it passes the filter.
+    }
+
     // An array to store the columns
     const columns = [
-        { title: "Name", field: "name" },
-        { title: "Age", field: "age" },
-        { title: "Gender", field: "gender" },
-        { title: "Occupation", field: "occupation" },
-        { title: "Salary", field: "salary" },
-        { title: "Email", field: "email" },
-        { title: "Phone", field: "phone" },
+        { 
+            title: "Name", field: "name", 
+            headerFilter: "input", headerFilterLiveFilter:false, headerFilterPlaceholder:"--search for name--"
+        },
+        { 
+            title: "Age", field: "age", 
+            headerFilter:minMaxFilterEditor, 
+            headerFilterFunc:minMaxFilterFunction, headerFilterLiveFilter:false,        
+        },
+        { 
+            title: "Gender", field: "gender",
+            editor:listFilterEditor, editorParams:{values:{"male":"male", "female":"female"}}, 
+            headerFilter:listFilterEditor, headerFilterParams:{values:{"male":"male", "female":"female"}}, 
+            headerFilterFunc:listFilterFunction,
+            headerFilterLiveFilter:false,
+        },
+        { 
+            title: "Occupation", field: "occupation",
+            editor:multiSelectFilterEditor, 
+            editorParams:{values:{"teacher":"teacher", "doctor":"doctor", "lawyer":"lawyer", "engineer":"engineer", "nurse":"nurse", "accountant":"accountant", "chef":"chef", "artist":"artist", "writer":"writer", "student":"student"}}, 
+            headerFilter:multiSelectFilterEditor, 
+            headerFilterParams:{values:{"teacher":"teacher", "doctor":"doctor", "lawyer":"lawyer", "engineer":"engineer", "nurse":"nurse", "accountant":"accountant", "chef":"chef", "artist":"artist", "writer":"writer", "student":"student"}}, 
+            headerFilterFunc:multiSelectFilterFunction,
+            headerFilterLiveFilter:false,
+        },
+        { 
+            title: "Salary", field: "salary",
+            headerFilter:"number", headerFilterPlaceholder:"at least...", headerFilterFunc:">=", headerFilterLiveFilter:false,
+        },
+        { 
+            title: "Email", field: "email",
+        },
+        { 
+            title: "Phone", field: "phone",
+            headerFilter:"tickCross",  headerFilterParams:{"tristate":true},headerFilterEmptyCheck:function(value){return value === null}, 
+        },
     ];
 
     // add params
