@@ -1,101 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
+import "react-tabulator/lib/styles.css"; 
 import 'react-tabulator/css/tabulator.min.css';
 import { ReactTabulator } from 'react-tabulator';
 
 export default function TabularTableDev() {
 
-    //define the table data and columns
-    // A function to generate a random name
-    const randomName = () => {
-        // An array of possible first names
-        const firstNames = ["John", "Mary", "Bob", "Alice", "David", "Emma", "James", "Anna", "Tom", "Lisa"];
-        // An array of possible last names
-        const lastNames = ["Smith", "Jones", "Brown", "Johnson", "Miller", "Davis", "Wilson", "Taylor", "Clark", "Lee"];
-        // Pick a random first name from the array
-        const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
-        // Pick a random last name from the array
-        const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-        // Return the full name
-        return firstName + " " + lastName;
-    };
+    // use state hook to store the data
+    const [data, setData] = useState([]);
 
-    // A function to generate a random age between 18 and 65
-    const randomAge = () => {
-        return Math.floor(Math.random() * 48) + 18;
-    };
+    // use effect hook to fetch the data when the component mounts
+    useEffect(() => {
+        // define the URL to fetch the data from
+        const url = "http://localhost:80/dev/tabular/sv";
 
-    // A function to generate a random gender
-    const randomGender = () => {
-        // An array of possible genders
-        const genders = ["male", "female"];
-        // Pick a random gender from the array
-        return genders[Math.floor(Math.random() * genders.length)];
-    };
+        // use fetch API to get the data
+        fetch(url)
+        .then((response) => response.json()) // parse the response as JSON
+        .then((data) => {
+            // map the data to the desired format
+            const formattedData = data.map((item) => ({
+                chromosome: item["#CHROM"],
+                position: item["POS"],
+                alt: item["ALT"],
+                reference: item["REF"],
+                quality: item["QUAL"],
+                ID: item["ID"],
+                info: item["INFO"],
+                filter: item["FILTER"],
+                format: item["FORMAT"],
+                NA24143_DNA061748: item["NA24143_DNA061748"],
+            }));
 
-    // A function to generate a random occupation
-    const randomOccupation = () => {
-        // An array of possible occupations
-        const occupations = ["teacher", "doctor", "lawyer", "engineer", "nurse", "accountant", "chef", "artist", "writer", "student"];
-        // Pick a random occupation from the array
-        return occupations[Math.floor(Math.random() * occupations.length)];
-    };
-
-    // A function to generate a random salary between 20000 and 100000
-    const randomSalary = () => {
-        return Math.floor(Math.random() * 80001) + 20000;
-    };
-
-    // A function to generate a random email address based on the name
-    const randomEmail = (name) => {
-        // Split the name by space
-        const nameParts = name.split(" ");
-        // Use the first letter of the first name and the full last name as the username
-        const username = nameParts[0][0] + nameParts[1];
-        // An array of possible domains
-        const domains = ["gmail.com", "yahoo.com", "outlook.com", "hotmail.com", "aol.com"];
-        // Pick a random domain from the array
-        const domain = domains[Math.floor(Math.random() * domains.length)];
-        // Return the email address
-        return username + "@" + domain;
-    };
-
-    // A function to generate a random phone number
-    const randomPhone = () => {
-        // An array of possible area codes
-        const areaCodes = ["202", "212", "213", "305", "312", "323", "347", "415", "510", "646"];
-        // Pick a random area code from the array
-        const areaCode = areaCodes[Math.floor(Math.random() * areaCodes.length)];
-        // Generate a random 7-digit number
-        const number = Math.floor(Math.random() * 10000000).toString().padStart(7, "0");
-        // Format the phone number
-        return "(" + areaCode + ") " + number.slice(0, 3) + "-" + number.slice(3);
-    };
-
-    // An array to store the data
-    const data = [];
-
-    // A loop to generate 1048576 rows of data
-    for (let i = 0; i < 1048576; i++) {
-        // Generate a random name
-        const name = randomName();
-        // Generate a random age
-        const age = randomAge();
-        // Generate a random gender
-        const gender = randomGender();
-        // Generate a random occupation
-        const occupation = randomOccupation();
-        // Generate a random salary
-        const salary = randomSalary();
-        // Generate a random email
-        const email = randomEmail(name);
-        // Generate a random phone
-        const phone = randomPhone();
-        // Create an object with the data
-        const row = { name, age, gender, occupation, salary, email, phone };
-        // Push the object to the data array
-        data.push(row);
-    }
+            // set the data state with the formatted data
+            setData(formattedData);
+        })
+        .catch((error) => {
+            // handle any errors
+            console.error(error);
+        });
+    }, []); // pass an empty array as dependency to run only once
 
     //custom max min header filter
     var minMaxFilterEditor = function(cell, onRendered, success, cancel, editorParams){
@@ -228,9 +172,10 @@ export default function TabularTableDev() {
         //rowValue - the value of the column in this row
         //rowData - the data for the row being filtered
         //filterParams - params object passed to the headerFilterFuncParams property
-
-        if(rowValue){
-            return rowValue == headerValue; //return true if the row value matches the header value
+        if(headerValue == "all" ){
+            return true;
+        }else if(rowValue){
+            return rowValue == headerValue || rowValue.startsWith(headerValue + "_") 
         }
 
         return true; //must return a boolean, true if it passes the filter.
@@ -309,48 +254,109 @@ export default function TabularTableDev() {
         return true; //must return a boolean, true if it passes the filter.
     }
 
+
+
     // An array to store the columns
+    const chromosomes = {
+        "all":"all",
+        "chr1":"chr1", 
+        "chr2":"chr2",
+        "chr3":"chr3",
+        "chr4":"chr4",
+        "chr5":"chr5",
+        "chr6":"chr6",
+        "chr7":"chr7",
+        "chr8":"chr8",
+        "chr9":"chr9",
+        "chr10":"chr10",
+        "chr11":"chr11", 
+        "chr12":"chr12",
+        "chr13":"chr13",
+        "chr14":"chr14",
+        "chr15":"chr15",
+        "chr16":"chr16",
+        "chr17":"chr17",
+        "chr18":"chr18",
+        "chr19":"chr19",
+        "chr20":"chr20",
+        "chr21":"chr21",
+        "chr22":"chr22",
+        "chr23":"chr23",
+        "chrX":"chrX",
+        "chrY":"chrY",
+        "chrM":"chrM",
+    }
     const columns = [
-        { 
-            title: "Name", field: "name", 
-            headerFilter: "input", headerFilterLiveFilter:false, headerFilterPlaceholder:"--search for name--"
-        },
-        { 
-            title: "Age", field: "age", 
-            headerFilter:minMaxFilterEditor, 
-            headerFilterFunc:minMaxFilterFunction, headerFilterLiveFilter:false,        
-        },
-        { 
-            title: "Gender", field: "gender",
-            editor:listFilterEditor, editorParams:{values:{"male":"male", "female":"female"}}, 
-            headerFilter:listFilterEditor, headerFilterParams:{values:{"male":"male", "female":"female"}}, 
+        {
+            title: "Chromosome", 
+            field: "chromosome",
+            editor:listFilterEditor, 
+            editorParams:{values:chromosomes}, 
+            headerFilter:listFilterEditor, 
+            headerFilterParams:{values:chromosomes},
             headerFilterFunc:listFilterFunction,
             headerFilterLiveFilter:false,
         },
-        { 
-            title: "Occupation", field: "occupation",
-            editor:multiSelectFilterEditor, 
-            editorParams:{values:{"teacher":"teacher", "doctor":"doctor", "lawyer":"lawyer", "engineer":"engineer", "nurse":"nurse", "accountant":"accountant", "chef":"chef", "artist":"artist", "writer":"writer", "student":"student"}}, 
-            headerFilter:multiSelectFilterEditor, 
-            headerFilterParams:{values:{"teacher":"teacher", "doctor":"doctor", "lawyer":"lawyer", "engineer":"engineer", "nurse":"nurse", "accountant":"accountant", "chef":"chef", "artist":"artist", "writer":"writer", "student":"student"}}, 
-            headerFilterFunc:multiSelectFilterFunction,
+        {
+            title: "Position", 
+            field: "position",
+            headerFilter:minMaxFilterEditor, 
+            headerFilterFunc:minMaxFilterFunction, 
+            headerFilterLiveFilter:false, 
+        },
+        {
+            title: "Alt", 
+            field: "alt",
+            headerFilter: "input", 
             headerFilterLiveFilter:false,
         },
-        { 
-            title: "Salary", field: "salary",
-            headerFilter:"number", headerFilterPlaceholder:"at least...", headerFilterFunc:">=", headerFilterLiveFilter:false,
+        {
+            title: "Reference", 
+            field: "reference",
+            headerFilter: "input", 
+            headerFilterLiveFilter:false,
         },
-        { 
-            title: "Email", field: "email",
+        {
+            title: "Quality", 
+            field: "quality",
+            headerFilter:minMaxFilterEditor, 
+            headerFilterFunc:minMaxFilterFunction, 
+            headerFilterLiveFilter:false,
         },
-        { 
-            title: "Phone", field: "phone",
-            headerFilter:"tickCross",  headerFilterParams:{"tristate":true},headerFilterEmptyCheck:function(value){return value === null}, 
+        {
+            title: "ID", 
+            field: "ID",
+            headerFilter: "input", 
+            headerFilterLiveFilter:false,
         },
-    ];
-
+        {
+            title: "Info", 
+            field: "info",
+            headerFilter: "input", 
+            headerFilterLiveFilter:false,
+        },
+        {
+            title: "Filter", 
+            field: "filter",
+            headerFilter: "input", 
+            headerFilterLiveFilter:false,
+        },
+        {
+            title: "Format", 
+            field: "format",
+            headerFilter: "input", 
+            headerFilterLiveFilter:false,
+        },
+        {
+            title: "NA24143_DNA061748", 
+            field: "NA24143_DNA061748",
+            headerFilter: "input", 
+            headerFilterLiveFilter:false,
+        },
+    ]
+   
     // add params
-    const height = "700px"
+    const height = "800px"
     const pagination = true
     const paginationSize = 25
     const paginationSizeSelector = [5, 10, 25, 50, 100]
