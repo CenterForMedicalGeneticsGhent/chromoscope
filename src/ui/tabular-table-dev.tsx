@@ -290,8 +290,8 @@ export default function TabularTableDev() {
         {
             title: "Chromosome", 
             field: "chromosome",
-            editor:listFilterEditor, 
-            editorParams:{values:chromosomes}, 
+            //editor:listFilterEditor, 
+            //editorParams:{values:chromosomes}, 
             headerFilter:listFilterEditor, 
             headerFilterParams:{values:chromosomes},
             headerFilterFunc:listFilterFunction,
@@ -371,6 +371,13 @@ export default function TabularTableDev() {
                 pagination:pagination,
                 paginationSize:paginationSize,
                 paginationSizeSelector:paginationSizeSelector,
+            }}
+            events = {{
+                rowClick:function(e,row){
+                    var cell = row.getCell("position"); 
+                    var position = cell.getValue(); 
+                    console.log(position); 
+                },
             }}
         />
         </div>
