@@ -771,6 +771,7 @@ function App(props: RouteComponentProps) {
                             <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z" />
                         </svg>
                     </span>
+                    
                     {!isChrome() ? (
                         <a
                             style={{
@@ -784,6 +785,23 @@ function App(props: RouteComponentProps) {
                             ⚠️ Chromoscope is optimized for Google Chrome
                         </a>
                     ) : null}
+                    <span>
+                    <button onClick={function(e){
+                        var view0 = gosRef.current.api.getViews()[0].id;
+                        var view1 = gosRef.current.api.getViews()[1].id;
+                        var view2 = gosRef.current.api.getViews()[2].id;
+                        var view3 = gosRef.current.api.getViews()[3].id;
+
+                        console.log(gosRef.current.api.getTrackIds())
+
+                        gosRef.current.api.zoomTo(
+                            "SRR7890905-mid-ideogram",
+                            "chr2:1-100000",
+                        )
+                    }}>
+                        GOSLING API
+                    </button>
+                    </span>
                     <a
                         className="title-github-link"
                         href="https://github.com/hms-dbmi/chromoscope"
@@ -799,6 +817,7 @@ function App(props: RouteComponentProps) {
                         </svg>
                         GitHub
                     </a>
+                    
                     <a className="title-doc-link" href="https://chromoscope.bio/" target="_blank" rel="noreferrer">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -939,6 +958,7 @@ function App(props: RouteComponentProps) {
                                         ]);
                                     }}
                                 />
+
                                 <VivarCnvForm
                                     onAdd={config => {
                                         setFilteredSamples([
