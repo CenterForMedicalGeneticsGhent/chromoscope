@@ -4,7 +4,7 @@ import "react-tabulator/lib/styles.css";
 import 'react-tabulator/css/tabulator.min.css';
 import { ReactTabulator } from 'react-tabulator';
 
-export default function TabularTableDev() {
+export default function TabularTableDev({gosRef}) {
 
     // use state hook to store the data
     const [data, setData] = useState([]);
@@ -374,9 +374,20 @@ export default function TabularTableDev() {
             }}
             events = {{
                 rowClick:function(e,row){
+                    var window_size = 10000000
                     var cell = row.getCell("position"); 
-                    var position = cell.getValue(); 
-                    console.log(position); 
+                    var position = cell.getValue();
+                    var cell = row.getCell("chromosome"); 
+                    var chromosome = cell.getValue(); 
+
+                    var start = position;
+                    var end = position + window_size;
+
+                    var trackID = "SRR7890905-mid-ideogram"
+                    gosRef.current.api.zoomTo(
+                        trackID,
+                        `${chromosome}:${start}-${end}`,
+                    )
                 },
             }}
         />

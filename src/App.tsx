@@ -23,6 +23,7 @@ import SampleConfigForm from './ui/sample-config-form';
 import VivarCnvForm from './ui/vivar-cnv-form';
 import { BrowserDatabase } from './browser-log';
 import legend from './legend.png';
+import TabularTableDev from './ui/tabular-table-dev';
 
 const db = new Database();
 const log = new BrowserDatabase();
@@ -598,6 +599,7 @@ function App(props: RouteComponentProps) {
         currentSpec.current = JSON.stringify(spec);
         // console.log('spec', spec);
         return (
+        <div>
             <GoslingComponent
                 ref={gosRef}
                 spec={spec}
@@ -606,6 +608,8 @@ function App(props: RouteComponentProps) {
                 experimental={{ reactive: true }}
                 theme={THEME}
             />
+            <TabularTableDev gosRef={gosRef}/>
+        </div>
         );
         // !! Removed `demo` not to update twice since `drivers` are updated right after a demo update.
     }, [ready, xDomain, visPanelWidth, drivers, showOverview, showPutativeDriver, selectedSvId, breakpoints, svReads]);
@@ -785,23 +789,6 @@ function App(props: RouteComponentProps) {
                             ⚠️ Chromoscope is optimized for Google Chrome
                         </a>
                     ) : null}
-                    <span>
-                    <button onClick={function(e){
-                        var view0 = gosRef.current.api.getViews()[0].id;
-                        var view1 = gosRef.current.api.getViews()[1].id;
-                        var view2 = gosRef.current.api.getViews()[2].id;
-                        var view3 = gosRef.current.api.getViews()[3].id;
-
-                        console.log(gosRef.current.api.getTrackIds())
-
-                        gosRef.current.api.zoomTo(
-                            "SRR7890905-mid-ideogram",
-                            "chr2:1-100000",
-                        )
-                    }}>
-                        GOSLING API
-                    </button>
-                    </span>
                     <a
                         className="title-github-link"
                         href="https://github.com/hms-dbmi/chromoscope"
@@ -1227,7 +1214,7 @@ function App(props: RouteComponentProps) {
                             >
                                 →
                             </button>
-                        </div>
+                        </div>    
                     </div>
                 </div>
                 <div
