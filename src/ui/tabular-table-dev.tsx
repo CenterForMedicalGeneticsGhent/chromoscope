@@ -9,15 +9,23 @@ import minMaxFilterFunction from "./min-max-filter-function";
 import { listFilterEditor, listFilterFunction } from "./list-filter";
 import { chromosomes } from "./chromosomes";
 
+
 //create a subcomponent for the table
 class Table extends React.Component {
+  
   el = React.createRef();
+  tabulator = null;
+  gosRef = this.props.gosRef;
 
-  tabulator = null; //variable to hold your table
-  tableData = []; //initialize data for table to display as empty array
-  url = this.props.url; //url for data to fetch from props
+  constructor(props){
+    super(props)
+    this.url = this.props.url;
 
+    console.log(props)
+  }
+  
   componentDidMount() {
+    var gosRef = this.gosRef;
     //fetch data from url using axios
     axios.get(this.url)
       .then(response => {
@@ -45,6 +53,25 @@ class Table extends React.Component {
           paginationInitialPage:1, //set initial page to 1
           movableColumns: true,
         });
+        this.tabulator.on("rowClick", function(e, row){
+          var window_size = 10000000;
+            var positionCell = row.getCell("POS"); // Make sure to use the correct field key
+            var position = positionCell.getValue();
+            var chromosomeCell = row.getCell("#CHROM"); // Make sure to use the correct field key
+            var chromosome = chromosomeCell.getValue();
+
+            var start = position;
+            var end = position + window_size;
+
+            console.log(`${chromosome}:${start}-${end}`)
+
+            var trackID = "SRR7890905-mid-ideogram";
+            // Assuming gosRef is a reference to an external component
+            gosRef.current.api.zoomTo(
+              trackID,
+              `${chromosome}:${start}-${end}`,
+            );
+        });
       })
       .catch(error => {
         //handle error
@@ -60,11 +87,21 @@ class Table extends React.Component {
 
 //use the subcomponent in the main component
 class App extends React.Component {
-  //url for data to fetch
-  url = "http://localhost:80/dev/tabular/sv";
 
+  constructor(props){
+    super(props)
+    //url for data to fetch
+    this.url = "http://localhost:80/dev/tabular/sv";
+    this.gosRef = props.gosRef;
+  }
+  
   render(){
-    return (<Table url={this.url} />);
+    return (
+      <Table 
+      url={this.url} 
+      gosRef={this.gosRef}
+      />
+    );
   }
 }
 

@@ -9,8 +9,8 @@ const URL_BASE = "http://localhost:8989/api/v1/tileset_info/?d="
 
 const URL_RAW = URL_BASE + "test_109244_raw"
 const URL_BAF = URL_BASE + "baf"
-
 const URL_MANE = "http://localhost:8989/api/v1/tileset_info/?d=mane"
+
 
 export default function getMidView(option: SpecOption): View[] {
     const {
