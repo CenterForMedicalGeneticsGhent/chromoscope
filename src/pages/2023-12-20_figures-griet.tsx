@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { GoslingComponent, GoslingRef } from 'gosling.js';
 import UploadDataComponent from '../griet_figures_components/upload-data';
-import ShowTilesetsComponent from '../griet_figures_components/show-tilesets-component';
-import ExportButton from '../griet_figures_components/export-component';
+import ShowTilesetsComponent from '../common_components/show-tilesets-component';
+import ExportButton from '../common_components/export-component';
 import updateSpec from '../griet_figures_components/update-spec-func';
 
 
@@ -10,8 +10,8 @@ function GrietFigures(props) {
   // Use the useState hook to manage the loading state
   const [loading, setLoading] = useState(false);
   const [selectedTileset, setSelectedTileset] = useState<string>("");
-  const [width, setWidth] = useState(800);
-  const [height, setHeight] = useState(300);
+  const [width, setWidth] = useState(1600);
+  const [height, setHeight] = useState(150);
   const [yMax, setYMax] = useState(103);
   const [yMin, setYMin] = useState(-3); 
   const [lowerBoundary, setLowerBoundary] = useState(2.5)
@@ -26,7 +26,6 @@ function GrietFigures(props) {
 
   // Define a function to update the selected tileset
   const handleTilesetChange = (tileset: string) => {
-    console.log(tileset)
     setSelectedTileset(tileset);
   };
   
@@ -47,7 +46,7 @@ function GrietFigures(props) {
         onChange={function(e){
           setWidth(Number(e.target.value));
         }}
-        placeholder="800" // Add the default value as a placeholder
+        placeholder="1600" // Add the default value as a placeholder
       /> <b>width</b> <br />
       <input
         type="number"
@@ -56,7 +55,7 @@ function GrietFigures(props) {
         onChange={function(e){
           setHeight(Number(e.target.value));
         }}
-        placeholder="300" // Add the default value as a placeholder
+        placeholder="150" // Add the default value as a placeholder
       /> <b>height</b> <br />
       <input
         type="number"

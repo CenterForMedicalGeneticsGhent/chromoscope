@@ -15,18 +15,17 @@ const ShowTilesetsComponent = ({
   const [tilesets, setTilesets] = useState<string[]>([]);
   const [selected, setSelected] = useState<string>("");
 
-  // Use the useEffect hook to fetch the list of tilesets once the component mounts
-  useEffect(() => {
-
+  // Define a function to fetch the list of tilesets from the API
+  const fetchTilesets = () => {
     // Send a GET request to the localhost:80/tilesets/uuids/ endpoint
     axios
       .get("http://localhost:80/tilesets/uuids/")
       .then((response) => {
         // Handle success response
         // Filter the response data to keep only the tilesets that end with _raw
-        const filteredTilesets = ["select tileset"].concat(response.data.filter((tileset: string) =>
-          tileset != "mane"
-        ));
+        const filteredTilesets = ["select tileset"].concat(
+          response.data.filter((tileset: string) => tileset != "mane")
+        );
         // Set the tilesets state variable to the filtered data
         setTilesets(filteredTilesets);
         // Set the loading prop to false
@@ -36,6 +35,11 @@ const ShowTilesetsComponent = ({
         console.error(error);
         // Set the loading prop to false
       });
+  };
+
+  // Use the useEffect hook to fetch the list of tilesets once the component mounts
+  useEffect(() => {
+    fetchTilesets();
   }, []);
 
   // Add type annotations for the event handler parameters
@@ -44,6 +48,12 @@ const ShowTilesetsComponent = ({
     setSelected(e.target.value);
     // Call the function prop and pass the selected value as an argument
     handleTilesetChange(e.target.value);
+  };
+
+  // Add type annotations for the event handler parameters
+  const handleRefreshClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // Call the fetchTilesets function to get the updated list of tilesets
+    fetchTilesets();
   };
 
   return (
@@ -63,9 +73,10 @@ const ShowTilesetsComponent = ({
           </option>
         ))}
       </select>
-      <p>
-        <strong>You selected: {selected}</strong>
-      </p>
+      <button onClick={handleRefreshClick}>Refresh</button>
+      <br />
+      <strong>You selected: {selected}</strong>
+      
     </div>
   );
 };
