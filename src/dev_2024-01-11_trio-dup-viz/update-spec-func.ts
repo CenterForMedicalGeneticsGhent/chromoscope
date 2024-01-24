@@ -1,107 +1,15 @@
+import updateIdeogramSpecFunc from "./update-ideogram-spec-func";
+import updateSvSpecFunc from "./update-sv-spec-func";
 
-function generateIdeogramSpec(width){
-    const spec = {
-        alignment: 'overlay',
-        data: {
-            url: 'https://raw.githubusercontent.com/sehilyi/gemini-datasets/master/data/UCSC.HG38.Human.CytoBandIdeogram.csv',
-            type: 'csv',
-            chromosomeField: 'Chromosome',
-            genomicFields: ['chromStart', 'chromEnd']
-        },
-        tracks: [
-            {
-                mark: 'rect',
-                dataTransform: [
-                    {
-                        type: 'filter',
-                        field: 'Stain',
-                        oneOf: ['acen'],
-                        not: true
-                    }
-                ]
-            },
-            {
-                mark: 'triangleRight',
-                dataTransform: [
-                    { type: 'filter', field: 'Stain', oneOf: ['acen'] },
-                    { type: 'filter', field: 'Name', include: 'q' }
-                ]
-            },
-            {
-                mark: 'triangleLeft',
-                dataTransform: [
-                    { type: 'filter', field: 'Stain', oneOf: ['acen'] },
-                    { type: 'filter', field: 'Name', include: 'p' }
-                ]
-            }
-        ],
-        color: {
-            field: 'Stain',
-            type: 'nominal',
-            domain: ['gneg', 'gpos25', 'gpos50', 'gpos75', 'gpos100', 'gvar', 'acen'],
-            range: ['white', 'lightgray', 'gray', 'gray', 'black', '#7B9CC8', '#DC4542']
-        },
-        size: { value: 18 },
-        x: { field: 'chromStart', type: 'genomic' },
-        xe: { field: 'chromEnd', type: 'genomic' },
-        strokeWidth: { value: 0 },
-        width: width,
-        height: 18,
-    }
-    return spec
-}
-
-
-function generateChromosomeLinesSpec(){
-    const values = []
-    for (let i = 2; i <= 21; i++) {
-        values.push({ c: 'chr' + i, p: 0 })
-    }
-    values.push({ c: 'chrX', p: 0 }, { c: 'chrY', p: 0 })
-    const spec = {
-        data: {
-            type: 'json',
-            chromosomeField: 'c',
-            genomicFields: ['p'],
-            values: values,
-        },
-        mark:  'rule',
-        x: { field: 'p', type: 'genomic' },
-        color: { value: "lightwhite" },
-        opacity: { value: 0.5 },
-        overlayOnPreviousTrack: true,
-    }
-    return spec
-}
-
-
-function generateDataSpec(selectedTileset){
-    const spec = {
-        type : "beddb",
-        url : "http://localhost:8989/api/v1/tileset_info/?d=" + selectedTileset,
-        genomicFields : [
-            {"index": 1, "name": "start"},
-            {"index": 2, "name": "end"}
-        ],	
-        valueFields : [
-            {"index": 0, "name": "chr", "type": "nominal"},
-            {"index": 3, "name": "svtype", "type": "nominal"},
-            // {"index": 4, "name": "priority", "type": "quantitative"},
-            {"index": 5, "name": "p0", "type": "nominal"},
-            {"index": 6, "name": "p1", "type": "nominal"},
-            {"index": 7, "name": "p2", "type": "nominal"},
-        ]
-    }
-    return spec
-}
-
-function generateFilterSpec(field, oneOf){
-    return {
-        type: 'filter',
-        field: field,
-        oneOf: oneOf, 
-    }
-}
+import generateSvDataSpec from "./update-sv-spec/sv-data-spec";
+import transformDisplaceOverlayingDataSpec from "./update-spec-utils/transform-displace-overlaying-data-spec";
+import transformOneofFilterSpec from "./update-spec-utils/transform-oneof-filter-spec";
+import colorSpec from "./update-spec-utils/color-spec";
+import sizeValueSpec from "./update-spec-utils/size-value-spec";
+import xSpec from "./update-spec-utils/x-spec";
+import xeSpec from "./update-spec-utils/xe-spec";
+import yValueSpec from "./update-spec-utils/y-value-spec";
+import chromosomeLinesSpec from "./update-spec-utils/chromosome-lines-spec";
 
 
 function generateMarkSpec(
@@ -116,47 +24,115 @@ function generateMarkSpec(
             value : y ,
         },
         dataTransform: [
-            generateFilterSpec(field, oneof),
+            transformOneofFilterSpec(field, oneof),
         ],
         opacity: { value: opacity },
     }
     return spec
 }
 
-function generateXSpec(field, axis, grid){
+
+function generateVisibileZoomedInSpec(){
     const spec = {
-        field: field,
-        type: "genomic",
-        axis: axis,
-        grid: grid,
+        "operation":  "greater-than-or-equal-to",
+        "measure": "width",
+        "threshold": 3,
+        "transitionPadding": 0,
+        "target": "mark",
+    } 
+    return spec
+}
+
+
+function generateVisibileZoomedOutSpec(){
+    const spec = {
+        "operation":  "less-than",
+        "measure": "width",
+        "threshold": 3,
+        "transitionPadding": 0,
+        "target": "mark",
+    } 
+    return spec
+}
+
+
+function generateMarkZoomedIn1PersonSpec(
+        person_field: string,
+        height: number,
+        x_field_start: string,
+        x_field_end: string,
+        color_triplet: Array<string>,
+){
+    const color_ref = color_triplet[0]
+    const color_hetero = color_triplet[1]
+    const color_homo = color_triplet[2]
+    var y_value;
+    const size = height / (5*4)
+
+    switch (person_field){
+        case "p0":
+            y_value = (3 * height) / 4 
+            break
+        case "p1":
+            y_value = (2 * height) / 4
+            break 
+        case "p2":
+            y_value = (1 * height) / 4
+            break
+    }
+    const spec = {
+        mark: "rect",
+        x: xSpec(x_field_start,"bottom",true),
+        xe: xeSpec(x_field_end),
+        y: yValueSpec(y_value),
+        size: sizeValueSpec(size),
+        color: colorSpec(person_field,"nominal",
+            ["./.",     "0/0",      "0/1",          "1/0",          "1/1"],
+            [color_ref, color_ref,  color_hetero,   color_hetero,   color_homo],
+        ),
+        visibility: [
+            generateVisibileZoomedInSpec(),
+        ],
     }
     return spec
 }
 
 
-function generateXeSpec(field){
-    const spec = {
-        field: field,
-        type: "genomic",
+function generateMarkZoomedOut1PersonSpec(
+    person_field: string,
+    height: number,
+    x_field_start: string,
+    color_triplet: Array<string>,
+
+){
+    const color_ref = color_triplet[0]
+    const color_hetero = color_triplet[1]
+    const color_homo = color_triplet[2]
+    var y_value;
+    switch (person_field){
+        case "p0":
+            y_value = 3 * height / 4
+            break
+        case "p1":
+            y_value = 2 * height / 4
+            break 
+        case "p2":
+            y_value = 1 * height / 4
+            break
     }
-    return spec
-}
-
-
-function generateColorSpec(field, type, domain, range){
+    const size = height / (5*4)
     const spec = {
-        field: field,
-        type: type,
-        domain: domain,
-        range: range,
-    }
-    return spec
-}
-
-
-function generateSizeSpec(size){
-    const spec = {
-        value: size,
+        mark: "rect",
+        x: xSpec(x_field_start,"bottom",true),
+        y: yValueSpec(y_value),
+        size: sizeValueSpec(size),
+        color: colorSpec(person_field,"nominal",
+            ["./.",     "0/0",      "0/1",          "1/0",          "1/1"],
+            [color_ref, color_ref,  color_hetero,   color_hetero,   color_homo],
+        ),
+        visibility: [
+            generateVisibileZoomedOutSpec(),
+        ],
     }
     return spec
 }
@@ -165,24 +141,17 @@ function generateSizeSpec(size){
 function generateZoomedInSVsSpec(height, selectedTileset){
     const spec = {   
         alignment: 'overlay',
-        data: generateDataSpec(selectedTileset),
-        tracks: [
-            generateMarkSpec(3*height/4, "p0", ["./.","0/0"], 0),
-            generateMarkSpec(3*height/4, "p0", ["0/1","10"], 0.3),
-            generateMarkSpec(3*height/4, "p0", ["1/1"], 1),
-
-            generateMarkSpec(2*height/4, "p1", ["./.","0/0"], 0),
-            generateMarkSpec(2*height/4, "p1", ["0/1","10"], 0.3),
-            generateMarkSpec(2*height/4, "p1", ["1/1"], 1),
-
-            generateMarkSpec(1*height/4, "p2", ["./.","0/0"], 0),
-            generateMarkSpec(1*height/4, "p2", ["0/1","10"], 0.3),
-            generateMarkSpec(1*height/4, "p2", ["1/1"], 1),
+        data: generateSvDataSpec(selectedTileset),
+        dataTransform: [
+            transformDisplaceOverlayingDataSpec("start","end","row",5),
         ],
-        x: generateXSpec("start","bottom",true),
-        xe: generateXeSpec("end"), 
-        color : generateColorSpec("svtype", "nominal", ["DUP"], ["blue"]),            
-        size: generateSizeSpec(height/5),
+        tracks: [
+            generateMarkZoomedIn1PersonSpec("p0", height, "start", "end", ["grey", "orange", "green"]),
+            generateMarkZoomedOut1PersonSpec("p0", height, "start", ["grey", "orange", "green"]),
+
+
+            chromosomeLinesSpec(),
+        ],
         height: height,
     }
     return spec
@@ -192,7 +161,7 @@ function generateZoomedInSVsSpec(height, selectedTileset){
 function generateZoomedOutSVsSpec(height, selectedTileset){
     const spec = {   
         alignment: 'overlay',
-        data: generateDataSpec(selectedTileset),
+        data: generateSvDataSpec(selectedTileset),
         tracks: [
             generateMarkSpec(3*height/4, "p0", ["./.","0/0"], 0),
             generateMarkSpec(3*height/4, "p0", ["0/1","10"], 0.3),
@@ -206,29 +175,46 @@ function generateZoomedOutSVsSpec(height, selectedTileset){
             generateMarkSpec(1*height/4, "p2", ["0/1","10"], 0.3),
             generateMarkSpec(1*height/4, "p2", ["1/1"], 1),
         ],
-        x: generateXSpec("start","bottom",true),
-        color : generateColorSpec("svtype", "nominal", ["DUP"], ["blue"]),            
-        size: generateSizeSpec(height/5),
+        x: xSpec("start","bottom",true),
+        color : colorSpec("svtype", "nominal", ["DUP"], ["blue"]),            
+        size: sizeValueSpec(height/5),
         height: height,
-        overlayOnPreviousTrack: true
+        overlayOnPreviousTrack: true,
     }
     return spec
 }
 
 
 export default function updateSpec(
-    selectedTileset: string,
-    width: number, 
-    height: number,
+        selected_tileset : string,
+        width: number, 
+        height: number,
 ){
     return {
-        "tracks": [
-            generateIdeogramSpec(width),
-            generateZoomedInSVsSpec(height, selectedTileset),
-            generateZoomedOutSVsSpec(height, selectedTileset),
-            generateChromosomeLinesSpec(),
+        tracks: [
+            updateIdeogramSpecFunc(
+                width ,
+                20 ,
+            ),
+            updateSvSpecFunc(
+                selected_tileset,
+                width,
+                height/3,
+                "p0",
+            ),
+            updateSvSpecFunc(
+                selected_tileset,
+                width,
+                height/3,
+                "p1",
+            ),
+            updateSvSpecFunc(
+                selected_tileset,
+                width,
+                height/3,
+                "p2",
+            ),
         ]
     };
-  }
-
+}
 
