@@ -32,7 +32,7 @@ export default function markSvZoomedOutSpec(
             ) ,
         ] ,
         x : xSpec(
-            "start",
+            "chromStart",
             "none",
             true,
         ),

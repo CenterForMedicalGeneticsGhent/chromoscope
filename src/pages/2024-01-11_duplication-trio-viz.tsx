@@ -10,7 +10,7 @@ function trioDupFig(props) {
   // Use the useState hook to manage the loading state
   const [selectedTileset, setSelectedTileset] = useState<string>("");
   const [width, setWidth] = useState(1600);
-  const [height, setHeight] = useState(150);
+  const [height, setHeight] = useState(360);
   const [spec, setSpec] = useState(updateSpec(selectedTileset, width, height)); 
   
   // Use the useRef hook to create a reference to the GoslingComponent
@@ -46,7 +46,7 @@ function trioDupFig(props) {
         onChange={function(e){
           setHeight(Number(e.target.value));
         }}
-        placeholder="150" // Add the default value as a placeholder
+        placeholder="360" // Add the default value as a placeholder
       /> <b>height</b> <br />
       <GoslingComponent 
         spec = {spec} 

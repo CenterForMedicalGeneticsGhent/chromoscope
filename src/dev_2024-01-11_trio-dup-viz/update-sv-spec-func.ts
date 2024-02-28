@@ -9,8 +9,8 @@ import svDataSpec from "./update-sv-spec/sv-data-spec";
 export default function updateSvSpecFunc(
         selected_tileset : string,        
         width : number,
-        height: number,
-        identity: string,
+        height : number,
+        identity : string,
 ){
     const params = [
         { func: markSvZoomedInSpec, type: "DUP", num: 6 },
@@ -33,8 +33,9 @@ export default function updateSvSpecFunc(
           ["0/1", "1/0"],
           p.type,
           p.num,
-          0.7,
-          height
+          0.4,
+          height,
+          false,
         ));
         results.push(p.func(
           identity,
@@ -42,10 +43,12 @@ export default function updateSvSpecFunc(
           p.type,
           p.num,
           1,
-          height
+          height,
+          true,
         ));
     }
     const spec = {
+        title: identity,
         width: width ,
         height: height ,
         alignment: 'overlay',

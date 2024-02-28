@@ -17,6 +17,7 @@ export default function markSvZoomedInSpec(
         row : number,
         opacity : number,
         height: number, 
+        legend : boolean = false,
 ){
     const h = height / 7
     const s = height / 8
@@ -33,12 +34,12 @@ export default function markSvZoomedInSpec(
             ) ,
         ] ,
         x : xSpec(
-            "start",
+            "chromStart",
             "none",
             true,
         ),
         xe : xeSpec(
-            "end",
+            "chromEnd",
         ),
         y : yValueSpec(
             row*h,
@@ -53,6 +54,7 @@ export default function markSvZoomedInSpec(
             "nominal",
             [ "DUP", "DEL", "INS",  "INV",    "BND",    "CNV" ],
             [ "blue","red", "grey", "orange", "purple", "grey" ],
+            legend,
         ),
     };
     return spec;
