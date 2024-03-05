@@ -37,6 +37,10 @@ const config = {
             'classic',
             /** @type {import('@docusaurus/preset-classic').Options} */
             ({
+                gtag: {
+                    trackingID: 'G-ZDRLE55F73',
+                    anonymizeIP: true,
+                },
                 docs: {
                     routeBasePath: '/',
                     sidebarPath: require.resolve('./sidebars.js'),

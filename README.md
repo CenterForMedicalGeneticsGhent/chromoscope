@@ -1,4 +1,4 @@
-# Chromoscope [![Demo](https://img.shields.io/badge/demo-🧬-5CB6EA.svg)](https://chromoscope.bio/app) [![Documentation Status](https://img.shields.io/badge/documentation-📖-5CB6EA.svg)](https://chromoscope.bio) [![License: MIT](https://img.shields.io/badge/License-MIT-5CB6EA.svg)](https://opensource.org/licenses/MIT)
+# Chromoscope [![Demo](https://img.shields.io/badge/demo-🧬-5CB6EA.svg)](https://chromoscope.bio/app) [![Documentation Status](https://img.shields.io/badge/documentation-📖-5CB6EA.svg)](https://chromoscope.bio) [![License: MIT](https://img.shields.io/badge/License-MIT-5CB6EA.svg)](https://opensource.org/licenses/MIT) [![PyPI - Version](https://img.shields.io/pypi/v/chromoscope.svg)](https://pypi.org/project/chromoscope)
 
 Interactive multiscale visualization for structural variation in human genomes.
 
@@ -54,5 +54,5 @@ http://localhost:3000/docs
 
 ## Citation
 
-Please cite the [preprint](10.31219/osf.io/pyqrx) below:
-> L'Yi et al. Chromoscope: Interactive Multiscale Visualization for Structural Variation in Human Genomes. OSF Preprints, 10 May 2023. 10.31219/osf.io/pyqrx
+Please cite the [following publication](10.31219/osf.io/pyqrx):
+> Sehi L’Yi, Dominika Maziec, Victoria Stevens, Trevor Manz, Alexander Veit, Michele Berselli, Peter J. Park, Dominik Głodzik, and Nils Gehlenborg. Chromoscope: interactive multiscale visualization for structural variation in human genomes. Nat Methods 20, 1834–1835 (2023). https://doi.org/10.1038/s41592-023-02056-x
