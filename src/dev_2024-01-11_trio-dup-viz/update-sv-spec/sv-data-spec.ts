@@ -16,8 +16,8 @@ export default function svDataSpec(selectedTileset){
             {"index": 7, "name": "p2", "type": "nominal"},
         ]
         */
-        url: "http://localhost/dev/genomic/file.bed.gz",
-        indexUrl: "http://localhost/dev/genomic/file.bed.gz.tbi",
+        url: "http://localhost/dev/genomic/2428-2000.bed.gz",
+        indexUrl: "http://localhost/dev/genomic/2428-2000.bed.gz.tbi",
         type: "bed",
         customFields: [
             "svtype",
@@ -27,7 +27,7 @@ export default function svDataSpec(selectedTileset){
             "p2",
             "is_in_id_panel",
         ],
-        sampleLength: 2427*3,
+        sampleLength: 5000,
     }
     return spec
 }
