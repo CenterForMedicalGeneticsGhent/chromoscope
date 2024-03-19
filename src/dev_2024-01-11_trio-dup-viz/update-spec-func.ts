@@ -197,19 +197,16 @@ export default function updateSpec(
                 20 ,
             ),
             updateSvSpecFunc(
-                selected_tileset,
                 width,
                 height/3,
                 "p0",
             ),
             updateSvSpecFunc(
-                selected_tileset,
                 width,
                 height/3,
                 "p1",
             ),
             updateSvSpecFunc(
-                selected_tileset,
                 width,
                 height/3,
                 "p2",

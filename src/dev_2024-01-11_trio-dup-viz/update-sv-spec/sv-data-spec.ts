@@ -16,8 +16,8 @@ export default function svDataSpec(selectedTileset){
             {"index": 7, "name": "p2", "type": "nominal"},
         ]
         */
-        url: "http://localhost/dev/genomic/2428-2000.bed.gz",
-        indexUrl: "http://localhost/dev/genomic/2428-2000.bed.gz.tbi",
+        url: "http://localhost/dev/genomic/" + selectedTileset,
+        indexUrl: "http://localhost/dev/genomic/" + selectedTileset + ".tbi",
         type: "bed",
         customFields: [
             "svtype",
