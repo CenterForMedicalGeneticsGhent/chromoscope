@@ -313,13 +313,25 @@ function getOverviewSpec(option: SpecOption): View[] {
                     width,
                     height: 100
                 },
-                tracks.driver(id, driversToTsvUrl(drivers), width, 40, 'top'),
-                tracks.boundary('driver', 'top'),
-                tracks.gain(id, cnv, width, 40, 'top', cnFields),
-                tracks.boundary('gain', 'top'),
-                tracks.loh(id, cnv, width, 40, 'top', cnFields),
-                tracks.boundary('loh', 'top'),
-                tracks.sv(id, sv, width, 80, 'top', selectedSvId)
+                ...(! drivers
+                    ? []
+                    : [
+                        tracks.driver(id, driversToTsvUrl(drivers), width, 40, 'top'),
+                        tracks.boundary('driver', 'top')
+                    ]),
+                ...(! cnv
+                    ? []
+                    : [
+                        tracks.gain(id, cnv, width, 40, 'top', cnFields),
+                        tracks.boundary('gain', 'top'),
+                        tracks.loh(id, cnv, width, 40, 'top', cnFields),
+                        tracks.boundary('loh', 'top')
+                    ]),
+                ...(! sv
+                    ? []
+                    : [
+                        tracks.sv(id, sv, width, 80, 'top', selectedSvId)
+                    ]),
             ]
         }
     ];

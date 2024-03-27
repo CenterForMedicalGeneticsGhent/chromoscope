@@ -5,10 +5,6 @@ import tracks from './track';
 import { driversToTsvUrl } from './utils';
 import gene_annotation from './track/gene_annotation';
 
-const URL_BASE = "http://localhost:8989/api/v1/tileset_info/?d="
-
-const URL_RAW = URL_BASE + "test_109244_raw"
-const URL_BAF = URL_BASE + "baf"
 const URL_MANE = "http://localhost:8989/api/v1/tileset_info/?d=mane"
 
 
@@ -22,6 +18,8 @@ export default function getMidView(option: SpecOption): View[] {
         vcf2,
         vcf2Index,
         cnv,
+        cnv_raw,
+        baf,
         sv,
         width,
         showPutativeDriver,
@@ -89,8 +87,12 @@ export default function getMidView(option: SpecOption): View[] {
                     width,
                     height: 18
                 },
-                tracks.driver(id, driversToTsvUrl(drivers), width, 40, 'mid'),
-                tracks.boundary('driver', 'mid'),
+                ...(! drivers
+                    ? []
+                    : [
+                        tracks.driver(id, driversToTsvUrl(drivers), width, 40, 'mid'),
+                        tracks.boundary('driver', 'mid')
+                    ]),
                 {
                     id: `${id}-mid-gene`,
                     template: 'gene',
@@ -137,23 +139,39 @@ export default function getMidView(option: SpecOption): View[] {
                     height: 60
                 },
                 //tracks.gene_annotation(id,width,assembly),
-                tracks.cnv_ektenis(id, URL_RAW, width, 120, 'mid'),
-                tracks.cnv_ektenis_bar(id, URL_RAW, width, 120, 'mid'),
+                ...(! cnv_raw
+                    ? []
+                    : [
+                        tracks.cnv_ektenis(id, cnv_raw, width, 120, 'mid'),
+                        tracks.cnv_ektenis_bar(id, cnv_raw, width, 120, 'mid')
+                    ]),
                 //tracks.gene_annotation_ektenis(id, URL_MANE, width, 120, 'mid'),
-                tracks.baf_ektenis(id, URL_BAF, width, 120, 'mid'),
+                ...(! baf
+                    ? []
+                    : [
+                        tracks.baf_ektenis(id, baf, width, 120, 'mid')
+                    ]),
                 ...(!vcf
                     ? []
                     : [tracks.mutation(id, vcf, vcfIndex, width, 60, 'mid'), tracks.boundary('mutation', 'mid')]),
                 ...(!vcf2
                     ? []
                     : [tracks.indel(id, vcf2, vcf2Index, width, 40, 'mid'), tracks.boundary('indel', 'mid')]),
-                tracks.cnv(id, cnv, width, 60, 'mid', cnFields),
-                tracks.boundary('cnv', 'mid'),
-                tracks.gain(id, cnv, width, 20, 'mid', cnFields),
-                tracks.boundary('gain', 'mid'),
-                tracks.loh(id, cnv, width, 20, 'mid', cnFields),
-                tracks.boundary('loh', 'mid'),
-                tracks.sv(id, sv, width, 250, 'mid', selectedSvId)
+                ...(! cnv
+                    ? []
+                    : [
+                        tracks.cnv(id, cnv, width, 60, 'mid', cnFields),
+                        tracks.boundary('cnv', 'mid'),
+                        tracks.gain(id, cnv, width, 20, 'mid', cnFields),
+                        tracks.boundary('gain', 'mid'),
+                        tracks.loh(id, cnv, width, 20, 'mid', cnFields),
+                        tracks.boundary('loh', 'mid')
+                    ]),
+                ...(! sv
+                    ? []
+                    : [
+                        tracks.sv(id, sv, width, 250, 'mid', selectedSvId)
+                    ]),
                 // {
                 //     id: `${id}-${'mid'}-sv`,
                 //     data: {

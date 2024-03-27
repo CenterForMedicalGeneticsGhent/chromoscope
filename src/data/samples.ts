@@ -21,6 +21,8 @@ export type SampleType = {
     assembly: Assembly; // hg19 or 38
     sv: string; // URL of bedpe
     cnv: string; // URL of txt
+    cnv_raw?: string,
+    baf?: string,
     drivers?: { [k: string]: string | number }[] | string;
     bam?: string;
     bai?: string;
