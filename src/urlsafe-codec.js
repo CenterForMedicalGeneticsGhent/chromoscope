@@ -1,5 +1,5 @@
-import { deflateSync, inflateSync } from 'zlib';
-import { fromByteArray, toByteArray } from 'base64-js';
+const { deflateSync, inflateSync } = require('zlib');
+const { fromByteArray, toByteArray } = require('base64-js');
 
 class UrlsafeCodec {
     static encode(dictionary) {
@@ -23,4 +23,4 @@ class UrlsafeCodec {
 }
 
 
-export default UrlsafeCodec;
+module.exports = UrlsafeCodec;
