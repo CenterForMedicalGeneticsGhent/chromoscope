@@ -12,8 +12,15 @@ yargs(hideBin(process.argv))
     });
   }, (argv) => {
     if (argv.json) {
-      const dictionary = JSON.parse(argv.json);
-      console.log(UrlsafeCodec.encode(dictionary));
+      try {
+        // Parse the input JSON string
+        const dictionary = JSON.parse(argv.json);
+        // Encode the dictionary and format the output as a JSON string
+        const encoded = UrlsafeCodec.encode(dictionary);
+        console.log(encoded);
+      } catch (error) {
+        console.error('Invalid JSON string. Please ensure it is properly formatted with keys and values in double quotes.');
+      }
     } else {
       console.error('JSON string is required');
     }
@@ -25,7 +32,14 @@ yargs(hideBin(process.argv))
     });
   }, (argv) => {
     if (argv.string) {
-      console.log(UrlsafeCodec.decode(argv.string));
+      try {
+        // Decode the string
+        const decoded = UrlsafeCodec.decode(argv.string);
+        // Format the output as a JSON string with keys and values in double quotes
+        console.log(JSON.stringify(decoded));
+      } catch (error) {
+        console.error('Invalid encoded string. Please ensure it is a valid encoded JSON string.');
+      }
     } else {
       console.error('Encoded string is required');
     }

@@ -18,6 +18,10 @@ COPY . .
 EXPOSE 3000
 EXPOSE 4173
 
+RUN apt-get update && \
+    apt-get install -y bats
+
 # Start the app
 CMD yarn install && \
+    yarn link && \
     yarn start --host
