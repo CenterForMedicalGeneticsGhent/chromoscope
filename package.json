@@ -39,8 +39,7 @@
         "react-tabulator": "^0.19.0",
         "tabulator-tables": "^5.5.2",
         "uuid": "^8.3.2",
-        "yargs": "^17.0.1",
-        "yargs/helpers": "^1.0.2"
+        "yargs": "^17.0.1"    
     },
     "devDependencies": {
         "@babel/preset-env": "^7.24.3",
