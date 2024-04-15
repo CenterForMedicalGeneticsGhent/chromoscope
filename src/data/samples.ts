@@ -22,6 +22,7 @@ export type SampleType = {
     sv: string; // URL of bedpe
     cnv: string; // URL of txt
     cnv_raw?: string,
+    table?: string,
     baf?: string,
     drivers?: { [k: string]: string | number }[] | string;
     bam?: string;

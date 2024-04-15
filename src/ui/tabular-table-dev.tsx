@@ -91,7 +91,8 @@ class App extends React.Component {
   constructor(props){
     super(props)
     //url for data to fetch
-    this.url = "http://localhost:80/dev/tabular/sv";
+    //this.url = "http://localhost:80/dev/tabular/sv";
+    this.url = props.data_url;
     this.gosRef = props.gosRef;
   }
   

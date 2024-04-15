@@ -179,7 +179,6 @@ function App(props: RouteComponentProps) {
             fetch(externalUrl).then(response =>
                 response.text().then(d => {
                     let externalDemo = JSON.parse(d);
-                    console.log(externalDemo)
                     if (Array.isArray(externalDemo) && externalDemo.length >= 0) {
                         setFilteredSamples(externalDemo);
                         externalDemo = externalDemo[demoIndex.current < externalDemo.length ? demoIndex.current : 0];
@@ -200,7 +199,6 @@ function App(props: RouteComponentProps) {
         async function fetchAndSetData() {
             if (externalUrl && !isWebAddress(externalUrl)) {
                 let externalDemo = await UrlsafeCodec.decode(externalUrl);
-                console.log(externalDemo);
                 if (Array.isArray(externalDemo) && externalDemo.length >= 0) {
                     setFilteredSamples(externalDemo);
                     externalDemo = externalDemo[demoIndex.current < externalDemo.length ? demoIndex.current : 0];
@@ -534,7 +532,7 @@ function App(props: RouteComponentProps) {
                 experimental={{ reactive: true }}
                 theme={THEME}
             />
-            <TabularTableDev gosRef={gosRef}/>
+            { demo.table && <TabularTableDev gosRef={gosRef} data_url={demo.table}/>}
         </div>
         );
         // !! Removed `demo` not to update twice since `drivers` are updated right after a demo update.
