@@ -23,6 +23,7 @@ import SampleConfigForm from './ui/sample-config-form';
 import { BrowserDatabase } from './browser-log';
 import legend from './legend.png';
 import UrlsafeCodec from './lib/urlsafe-codec';
+import GenomicTable from './ui/genomic-table';
 
 const db = new Database();
 const log = new BrowserDatabase();
@@ -509,7 +510,7 @@ function App(props: RouteComponentProps) {
         currentSpec.current = JSON.stringify(spec);
         // console.log('spec', spec);
         return (
-            <div>
+        <div>
             <GoslingComponent
                 ref={gosRef}
                 spec={spec}
@@ -518,7 +519,8 @@ function App(props: RouteComponentProps) {
                 experimental={{ reactive: true }}
                 theme={THEME}
             />
-            </div>
+            { demo.table && <GenomicTable gosRef={gosRef} demo_id={demo.id} data_url={demo.table}/>}
+        </div>
         );
         // !! Removed `demo` not to update twice since `drivers` are updated right after a demo update.
     }, [ready, xDomain, visPanelWidth, drivers, showOverview, showPutativeDriver, selectedSvId, breakpoints, svReads]);
