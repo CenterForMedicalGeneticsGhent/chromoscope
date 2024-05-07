@@ -80,8 +80,12 @@ export default function getMidView(option: SpecOption): View[] {
                     width,
                     height: 18
                 },
-                tracks.driver(id, driversToTsvUrl(drivers), width, 40, 'mid'),
-                tracks.boundary('driver', 'mid'),
+                ...(! drivers
+                    ? []
+                    : [
+                        tracks.driver(id, driversToTsvUrl(drivers), width, 40, 'mid'),
+                        tracks.boundary('driver', 'mid')
+                    ]),
                 {
                     id: `${id}-mid-gene`,
                     template: 'gene',
@@ -133,34 +137,21 @@ export default function getMidView(option: SpecOption): View[] {
                 ...(!vcf2
                     ? []
                     : [tracks.indel(id, vcf2, vcf2Index, width, 40, 'mid'), tracks.boundary('indel', 'mid')]),
-                tracks.cnv(id, cnv, width, 60, 'mid', cnFields),
-                tracks.boundary('cnv', 'mid'),
-                tracks.gain(id, cnv, width, 20, 'mid', cnFields),
-                tracks.boundary('gain', 'mid'),
-                tracks.loh(id, cnv, width, 20, 'mid', cnFields),
-                tracks.boundary('loh', 'mid'),
-                tracks.sv(id, sv, width, 250, 'mid', selectedSvId)
-                // {
-                //     id: `${id}-${'mid'}-sv`,
-                //     data: {
-                //         type: 'json',
-                //         values: [
-                //             { c: 'chr1', p1: 1, p2: 4000000000, v: 250 / 4 },
-                //             { c: 'chr1', p1: 1, p2: 4000000000, v: (250 / 4) * 2 },
-                //             { c: 'chr1', p1: 1, p2: 4000000000, v: (250 / 4) * 3 }
-                //         ],
-                //         chromosomeField: 'c',
-                //         genomicFields: ['p1', 'p2']
-                //     },
-                //     mark: 'rule',
-                //     x: { field: 'p1', type: 'genomic' },
-                //     xe: { field: 'p2', type: 'genomic' },
-                //     y: { field: 'v', type: 'quantitative', domain: [0, 250], axis: 'none' },
-                //     strokeWidth: { value: 0.5 },
-                //     color: { value: '#E3E3E3' },
-                //     width,
-                //     height: 250
-                // },
+                ...(! cnv
+                    ? []
+                    : [
+                        tracks.cnv(id, cnv, width, 60, 'mid', cnFields),
+                        tracks.boundary('cnv', 'mid'),
+                        tracks.gain(id, cnv, width, 20, 'mid', cnFields),
+                        tracks.boundary('gain', 'mid'),
+                        tracks.loh(id, cnv, width, 20, 'mid', cnFields),
+                        tracks.boundary('loh', 'mid')
+                    ]),
+                ...(! sv
+                    ? []
+                    : [
+                        tracks.sv(id, sv, width, 250, 'mid', selectedSvId)
+                    ]),
             ]
         }
     ];
