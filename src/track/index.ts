@@ -7,6 +7,7 @@ import sv from './sv';
 import mutation from './mutation';
 import indel from './indel';
 import boundary from './boundary';
+import biAlleleFrequency from './bi-allele-frequency';
 
 export type TrackMode = 'small' | 'top' | 'mid';
 
@@ -19,5 +20,6 @@ export default {
     sv,
     mutation,
     indel,
-    boundary
+    boundary,
+    biAlleleFrequency,
 };

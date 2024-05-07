@@ -29,6 +29,7 @@ export type SampleType = {
     vcf2?: string;
     vcf2Index?: string;
     cnFields?: [string, string, string];
+    baf?: string,
     thumbnail?: string;
     note?: string;
 };
