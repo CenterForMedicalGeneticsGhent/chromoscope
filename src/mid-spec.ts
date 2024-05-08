@@ -14,6 +14,7 @@ export default function getMidView(option: SpecOption): View[] {
         vcf2Index,
         cnv,
         sv,
+        baf,
         width,
         showPutativeDriver,
         showOverview,
@@ -131,6 +132,11 @@ export default function getMidView(option: SpecOption): View[] {
                     width,
                     height: 60
                 },
+                ...(! baf
+                    ? []
+                    : [
+                        tracks.biAlleleFrequency(id, baf, width, 120, 'mid')
+                    ]),
                 ...(!vcf
                     ? []
                     : [tracks.mutation(id, vcf, vcfIndex, width, 60, 'mid'), tracks.boundary('mutation', 'mid')]),
