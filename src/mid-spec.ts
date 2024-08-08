@@ -134,9 +134,7 @@ export default function getMidView(option: SpecOption): View[] {
                 //    : [
                 //        tracks.biAlleleFrequency(id, baf1, width, 120, 'mid'),
                 //    ]),
-                ...(!baf 
-                    ? [] 
-                    :[tracks.baf(id, baf, width, 240, 'mid')]),
+                ...(!baf ? [] : [tracks.baf(id, baf, width, 240, 'mid')]),
                 ...(!vcf
                     ? []
                     : [tracks.mutation(id, vcf, vcfIndex, width, 60, 'mid'), tracks.boundary('mutation', 'mid')]),

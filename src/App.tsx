@@ -23,7 +23,6 @@ import SampleConfigForm from './ui/sample-config-form';
 import { BrowserDatabase } from './browser-log';
 import legend from './legend.png';
 import UrlsafeCodec from './lib/urlsafe-codec';
-import GenomicTable from './ui/genomic-table';
 
 const db = new Database();
 const log = new BrowserDatabase();
@@ -505,7 +504,8 @@ function App(props: RouteComponentProps) {
             breakpoints: breakpoints,
             crossChr: false,
             bpIntervals,
-            svReads
+            svReads,
+            spacing: 40
         });
         currentSpec.current = JSON.stringify(spec);
         // console.log('spec', spec);
@@ -1119,7 +1119,7 @@ function App(props: RouteComponentProps) {
                                         case 'ArrowDown':
                                             break;
                                         case 'Enter':
-                                            // https://github.com/gosling-lang/gosling.js/blob/7555ab711023a0c3e2076a448756a9ba3eeb04f7/src/core/api.ts#L156
+                                            //github.com/gosling-lang/gosling.js/blob/7555ab711023a0c3e2076a448756a9ba3eeb04f7/src/core/api.ts#L156
                                             gosRef.current.hgApi.api.zoomToGene(
                                                 `${demo.id}-mid-ideogram`,
                                                 keyword,
@@ -1133,6 +1133,66 @@ function App(props: RouteComponentProps) {
                                     }
                                 }}
                             />
+
+                            <svg
+                                className="region-search-icon"
+                                viewBox="0 0 16 16"
+                                style={{
+                                    top: `${Math.min(visPanelWidth, 600) + 6}px`
+                                    // visibility: demo.assembly === 'hg38' ? 'visible' : 'hidden'
+                                }}
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                                />
+                            </svg>
+                            <input
+                                type="text"
+                                className="region-search"
+                                placeholder="Search Region Of Interest: (e.g., chr1:1-100000)"
+                                // alt={demo.assembly === 'hg38' ? 'Search Gene' : 'Not currently available for this assembly.'}
+                                style={{
+                                    pointerEvents: 'auto',
+                                    top: `${Math.min(visPanelWidth, 600)}px`
+                                    // cursor: demo.assembly === 'hg38' ? 'auto' : 'not-allowed',
+                                    // visibility: demo.assembly === 'hg38' ? 'visible' : 'hidden'
+                                }}
+                                // disabled={demo.assembly === 'hg38' ? false : true}
+                                // onChange={(e) => {
+                                //     const keyword = e.target.value;
+                                //     if(keyword !== "" && !keyword.startsWith("c")) {
+                                //         gosRef.current.api.suggestGene(keyword, (suggestions) => {
+                                //             setGeneSuggestions(suggestions);
+                                //         });
+                                //         setSuggestionPosition({
+                                //             left: searchBoxRef.current.getBoundingClientRect().left,
+                                //             top: searchBoxRef.current.getBoundingClientRect().top + searchBoxRef.current.getBoundingClientRect().height,
+                                //         });
+                                //     } else {
+                                //         setGeneSuggestions([]);
+                                //     }
+                                //     setSearchKeyword(keyword);
+                                // }}
+                                onKeyDown={e => {
+                                    const trackId = `${demo.id}-mid-ideogram`;
+                                    const keyword = (e.target as HTMLTextAreaElement).value;
+                                    switch (e.key) {
+                                        case 'ArrowUp':
+                                            break;
+                                        case 'ArrowDown':
+                                            break;
+                                        case 'Enter':
+                                            // https://github.com/gosling-lang/gosling.js/blob/7555ab711023a0c3e2076a448756a9ba3eeb04f7/src/core/api.ts#L156
+                                            gosRef.current?.api.zoomTo(trackId, keyword, 0, ZOOM_DURATION);
+                                            break;
+                                        case 'Esc':
+                                        case 'Escape':
+                                            break;
+                                    }
+                                }}
+                            />
+
                             <button
                                 style={{
                                     pointerEvents: 'auto',
