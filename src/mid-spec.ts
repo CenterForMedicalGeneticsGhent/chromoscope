@@ -131,6 +131,11 @@ export default function getMidView(option: SpecOption): View[] {
                     width,
                     height: 60
                 },
+                //...(!baf1
+                //    ? []
+                //    : [
+                //        tracks.biAlleleFrequency(id, baf1, width, 120, 'mid'),
+                //    ]),
                 ...(!baf 
                     ? [] 
                     :[tracks.baf(id, baf, width, 240, 'mid')]),
