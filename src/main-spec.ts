@@ -40,7 +40,7 @@ function generateSpec(opt: SpecOption): GoslingSpec {
         arrangement: 'vertical',
         centerRadius: 0.5,
         assembly,
-        spacing,
+        spacing: 40,
         style: {
             outlineWidth: 1,
             outline: 'lightgray',
