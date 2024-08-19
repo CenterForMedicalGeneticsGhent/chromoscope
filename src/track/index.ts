@@ -9,6 +9,8 @@ import indel from './indel';
 import boundary from './boundary';
 import baf from './baf';
 import biAlleleFrequency from './Bi_allel_example';
+import mendelianErrors from './mendelianErrors';
+import parentMapping from './parentMapping'
 import haplo from './haplo';
 
 export type TrackMode = 'small' | 'top' | 'mid';
@@ -25,5 +27,7 @@ export default {
     boundary,
     baf,
     biAlleleFrequency,
+    mendelianErrors,
+    parentMapping,
     haplo
 };
