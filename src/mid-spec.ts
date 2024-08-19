@@ -16,6 +16,7 @@ export default function getMidView(option: SpecOption): View[] {
         sv,
         baf,
         baf1,
+        haplo,
         width,
         showPutativeDriver,
         showOverview,
@@ -137,13 +138,16 @@ export default function getMidView(option: SpecOption): View[] {
                 ...(!baf 
                     ? [] 
                     :[tracks.baf(id, baf, width, 240, 'mid')]),
+                ...(!haplo 
+                    ? [] 
+                    :[tracks.haplo(id, haplo, width, 300, 'mid')]),
                 ...(!vcf
                     ? []
                     : [tracks.mutation(id, vcf, vcfIndex, width, 60, 'mid'), tracks.boundary('mutation', 'mid')]),
                 ...(!vcf2
                     ? []
                     : [tracks.indel(id, vcf2, vcf2Index, width, 40, 'mid'), tracks.boundary('indel', 'mid')]),
-                tracks.cnv(id, cnv, width, 60, 'mid', cnFields),
+                tracks.cnv(id, cnv, width, 200, 'mid'),
                 tracks.boundary('cnv', 'mid'),
                 tracks.gain(id, cnv, width, 20, 'mid', cnFields),
                 tracks.boundary('gain', 'mid'),

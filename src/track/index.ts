@@ -9,6 +9,7 @@ import indel from './indel';
 import boundary from './boundary';
 import baf from './baf';
 import biAlleleFrequency from './Bi_allel_example';
+import haplo from './haplo';
 
 export type TrackMode = 'small' | 'top' | 'mid';
 
@@ -23,5 +24,6 @@ export default {
     indel,
     boundary,
     baf,
-    biAlleleFrequency
+    biAlleleFrequency,
+    haplo
 };
