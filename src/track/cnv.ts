@@ -44,7 +44,15 @@ export default function cnv(
             {   
                 mark: 'line',
                 y: { field: 'seg.mean', type: 'quantitative', axis: 'left', grid: true, range: [0 + 10, height - 10], domain: [-2.4, 2.4] },
-                color: { value: '#008080' },
+                color: {
+                    field: 'seg_threshold', type: 'nominal',
+                    range: ['#FF0000', '#800080', '#ADD8E6', '#FFFF00','#FE66E7', '#008000' ],  
+                    domain: [ 'ratio<-1.0 (loss of 1 copy or more)', '-1.0< ratio<-0.3 (sign. loss)',
+                            '-0.3<=ratio<=0.3 (+/- normal)', '0.3<ratio<0.585 (sign. gain)', 
+                            '0.585<=ratio<1.0 (gain of at least 1 copy)',
+                            'ratio>= 1.0 (copies at least doubled)'
+                     ]
+                },
                 size: { value: 4 },
                 stroke: { value: '#000000' },
                 strokeWidth: { value: 2 },
