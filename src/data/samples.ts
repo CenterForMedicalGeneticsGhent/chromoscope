@@ -19,14 +19,11 @@ export type SampleType = {
     id: string; // "aliquot ID"
     cancer: string; // cancer type
     assembly: Assembly; // hg19 or 38
-    sv: string; // URL of bedpe
     cnv?: string; // URL of txt
     me?: string;
     me2?: string;
     pm?: string;
-    drivers?: { [k: string]: string | number }[] | string;
-    bam?: string;
-    bai?: string;
+    roi?: string;
     baf?: string;
     vcf?: string;
     vcfIndex?: string;
@@ -35,6 +32,9 @@ export type SampleType = {
     cnFields?: [string, string, string];
     thumbnail?: string;
     note?: string;
+    binStats?: string;
+    sample?: string;
+    summary?: string;
 };
 
 // const samples: SampleType[] = (pcawg as SampleType[]).map(d => { return { group: 'default', ...d }});
@@ -43,215 +43,21 @@ export type SampleType = {
 const samples: SampleType[] = [
     {
         group: 'default',
-        id: 'SRR7890905',
-        cancer: 'breast',
+        id: 'Proband_22_10969',
+        cancer: 'Albinism',
         assembly: 'hg38',
         vcf: 'https://somatic-browser-test.s3.amazonaws.com/SNV_test_tumor_normal_with_panel.vcf.gz',
         vcfIndex: 'https://somatic-browser-test.s3.amazonaws.com/SNV_test_tumor_normal_with_panel.vcf.gz.tbi',
-        vcf2: 'https://somatic-browser-test.s3.amazonaws.com/INDEL_test_tumor_normal_with_panel.vcf.gz',
-        vcf2Index: 'https://somatic-browser-test.s3.amazonaws.com/INDEL_test_tumor_normal_with_panel.vcf.gz.tbi',
-        sv: 'https://somatic-browser-test.s3.amazonaws.com/SVTYPE_SV_test_tumor_normal_with_panel.bedpe',
-        cnv: 'https://gist.githubusercontent.com/sehilyi/6fbceae35756b13472332d6b81b10803/raw/596428a8b0ebc00e7f8cbc52b050db0fbd6e19a5/SRR7890943.ascat.v3.cnv.tsv',
-        me: 'https://gist.githubusercontent.com/Maximvan/e235c862e2e05330428bfc1593709f41/raw/794d148d7820dd1b5aff1377fdf5e106fd4cd6c3/x.csv',
-        me2: 'https://gist.githubusercontent.com/Maximvan/e4fdc9ad80ed9477a793f1ccdeeca298/raw/2d7283e83039e63e72da77fb32f966da7e787ec3/x_detail.csv',
-        pm: 'https://gist.githubusercontent.com/Maximvan/09b840919ff017ddc0c1e33bc48152c0/raw/874d04ad1dbce4504da23ec487afbb83ec0e8f51/parentmapping.csv',
-        bam: 'https://somatic-browser-test.s3.amazonaws.com/SRR7890905_GAPFI2USVS21.bam',
-        bai: 'https://somatic-browser-test.s3.amazonaws.com/SRR7890905_GAPFI2USVS21.bam.bai',
+        cnv: 'https://gist.githubusercontent.com/nicolasdebusschere/350bf6f66a8513bd4ab6ac4c6fa5d00a/raw/64341c369ef7e6ae1b692d32e833d68c1b34b751/CNV_sample.tsv',
+        me: 'https://gist.githubusercontent.com/Maximvan/60a5f23de4b9a1fb8edc2a25ef079075/raw/870af34036718a64b78f058a0e53941418820afc/me_1mbp.csv',
+        me2: 'https://gist.githubusercontent.com/Maximvan/3daf900566eeaf198256f42e4a1f73f0/raw/394de4ff86b7b0b0319f7e94c12c42f66e2dad3f/me_detail.csv',
+        pm: 'https://gist.githubusercontent.com/Maximvan/8c30172d4852ae16ad346a728073546b/raw/edb67b4144840387fb3acf32d01719548e4e6e2a/parent_mapping.csv',
+        roi: 'https://gist.githubusercontent.com/Maximvan/6d47f196bcac0f28c64b2e491c231a7f/raw/d27d8d1da4531b7740457afba6471de9d74a59fb/ROI.csv',
         note: 'CNV profile - ASCAT. SVs - Sentieon. Mutations and indels - Sentieon',
+        binStats: 'https://gist.githubusercontent.com/Maximvan/2095620fd812dc3a708fae3905d16573/raw/e25e46b348da485c8ea0ae10303a0bedac854ebe/binned_stats.tsv',
+        summary: 'https://gist.githubusercontent.com/Maximvan/e2ad6bf0bb0ad707c9ec8a1d19684ee2/raw/24e9834c6fce7a79e7f417b69107e578a15d1ef8/chromozome1.csv',
+        sample: 'D2409912,D2409911,D2320995',
         thumbnail: SRR7890905
-    },
-    {
-        group: 'default',
-        id: 'SRR7890905_Hartwig',
-        cancer: 'breast',
-        assembly: 'hg38',
-        vcf: 'https://somatic-browser-test.s3.amazonaws.com/SNV_test_tumor_normal_with_panel.vcf.gz',
-        vcfIndex: 'https://somatic-browser-test.s3.amazonaws.com/SNV_test_tumor_normal_with_panel.vcf.gz.tbi',
-        vcf2: 'https://somatic-browser-test.s3.amazonaws.com/INDEL_test_tumor_normal_with_panel.vcf.gz',
-        vcf2Index: 'https://somatic-browser-test.s3.amazonaws.com/INDEL_test_tumor_normal_with_panel.vcf.gz.tbi',
-        sv: 'https://somatic-browser-test.s3.amazonaws.com/SRR7890905/SRR7890905.gripss.filtered.bedpe',
-        cnv: 'https://somatic-browser-test.s3.amazonaws.com/SRR7890905/SRR7890905.purple.cnv.somatic.reformatted.tsv',
-        bam: 'https://somatic-browser-test.s3.amazonaws.com/SRR7890905_GAPFI2USVS21.bam',
-        bai: 'https://somatic-browser-test.s3.amazonaws.com/SRR7890905_GAPFI2USVS21.bam.bai',
-        note: 'CNV profile - Purple. SVs - Gridss. Mutations and indels - Sentieon',
-        thumbnail: SRR7890905_Hartwig
-    },
-    {
-        group: 'default',
-        id: '7a921087-8e62-4a93-a757-fd8cdbe1eb8f',
-        cancer: 'ovarian',
-        assembly: 'hg19',
-        sv: 'https://s3.amazonaws.com/gosling-lang.org/data/SV/7a921087-8e62-4a93-a757-fd8cdbe1eb8f.pcawg_consensus_1.6.161022.somatic.sv.bedpe',
-        cnv: 'https://s3.amazonaws.com/gosling-lang.org/data/SV/7a921087-8e62-4a93-a757-fd8cdbe1eb8f.consensus.20170119.somatic.cna.annotated.txt',
-        vcf: 'https://somatic-browser-test.s3.amazonaws.com/browserExamples/7a921087-8e62-4a93-a757-fd8cdbe1eb8f.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz',
-        vcfIndex:
-            'https://somatic-browser-test.s3.amazonaws.com/browserExamples/7a921087-8e62-4a93-a757-fd8cdbe1eb8f.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz.tbi',
-        vcf2: 'https://somatic-browser-test.s3.amazonaws.com/browserExamples/7a921087-8e62-4a93-a757-fd8cdbe1eb8f.consensus.20161006.somatic.indel.sorted.vcf.gz',
-        vcf2Index:
-            'https://somatic-browser-test.s3.amazonaws.com/browserExamples/7a921087-8e62-4a93-a757-fd8cdbe1eb8f.consensus.20161006.somatic.indel.sorted.vcf.gz.tbi',
-        // drivers: 'https://gist.githubusercontent.com/sehilyi/01096d32326da8e7f9acc48dd9790332/raw/4f2bbd96ce3d2b6637bd733674f60e197e4d4da9/json-driver.json', // json example
-        thumbnail: _7a921087
-    },
-    {
-        group: 'default',
-        id: '7d332cb1-ba25-47e4-8bf8-d25e14f40d59',
-        cancer: 'sarcoma',
-        assembly: 'hg19',
-        sv: 'https://s3.amazonaws.com/gosling-lang.org/data/SV/7d332cb1-ba25-47e4-8bf8-d25e14f40d59.pcawg_consensus_1.6.161022.somatic.sv.bedpe',
-        cnv: 'https://s3.amazonaws.com/gosling-lang.org/data/SV/7d332cb1-ba25-47e4-8bf8-d25e14f40d59.consensus.20170119.somatic.cna.annotated.txt',
-        vcf: 'https://somatic-browser-test.s3.amazonaws.com/browserExamples/7d332cb1-ba25-47e4-8bf8-d25e14f40d59.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz',
-        vcfIndex:
-            'https://somatic-browser-test.s3.amazonaws.com/browserExamples/7d332cb1-ba25-47e4-8bf8-d25e14f40d59.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz.tbi',
-        vcf2: 'https://somatic-browser-test.s3.amazonaws.com/browserExamples/7d332cb1-ba25-47e4-8bf8-d25e14f40d59.consensus.20161006.somatic.indel.sorted.vcf.gz',
-        vcf2Index:
-            'https://somatic-browser-test.s3.amazonaws.com/browserExamples/7d332cb1-ba25-47e4-8bf8-d25e14f40d59.consensus.20161006.somatic.indel.sorted.vcf.gz.tbi',
-        thumbnail: _7d332cb1
-    },
-    {
-        group: 'default',
-        id: '9ae0744a-9bc1-4cd7-b7cf-c6569ed9e4aa',
-        cancer: 'kidney',
-        assembly: 'hg19',
-        sv: 'https://s3.amazonaws.com/gosling-lang.org/data/SV/9ae0744a-9bc1-4cd7-b7cf-c6569ed9e4aa.pcawg_consensus_1.6.161022.somatic.sv.bedpe',
-        cnv: 'https://s3.amazonaws.com/gosling-lang.org/data/SV/9ae0744a-9bc1-4cd7-b7cf-c6569ed9e4aa.consensus.20170119.somatic.cna.annotated.txt',
-        vcf: 'https://somatic-browser-test.s3.amazonaws.com/browserExamples/9ae0744a-9bc1-4cd7-b7cf-c6569ed9e4aa.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz',
-        vcfIndex:
-            'https://somatic-browser-test.s3.amazonaws.com/browserExamples/9ae0744a-9bc1-4cd7-b7cf-c6569ed9e4aa.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz.tbi',
-        vcf2: 'https://somatic-browser-test.s3.amazonaws.com/browserExamples/9ae0744a-9bc1-4cd7-b7cf-c6569ed9e4aa.consensus.20161006.somatic.indel.sorted.vcf.gz',
-        vcf2Index:
-            'https://somatic-browser-test.s3.amazonaws.com/browserExamples/9ae0744a-9bc1-4cd7-b7cf-c6569ed9e4aa.consensus.20161006.somatic.indel.sorted.vcf.gz.tbi',
-        thumbnail: _9ae0744a
-    },
-    {
-        group: 'default',
-        id: 'b27d75ba-5989-4200-bfe9-f1b7d7cf8008',
-        cancer: 'breast',
-        assembly: 'hg19',
-        sv: 'https://s3.amazonaws.com/gosling-lang.org/data/SV/b27d75ba-5989-4200-bfe9-f1b7d7cf8008.pcawg_consensus_1.6.161022.somatic.sv.bedpe',
-        cnv: 'https://s3.amazonaws.com/gosling-lang.org/data/SV/b27d75ba-5989-4200-bfe9-f1b7d7cf8008.consensus.20170119.somatic.cna.annotated.txt',
-        vcf: 'https://somatic-browser-test.s3.amazonaws.com/browserExamples/b27d75ba-5989-4200-bfe9-f1b7d7cf8008.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz',
-        vcfIndex:
-            'https://somatic-browser-test.s3.amazonaws.com/browserExamples/b27d75ba-5989-4200-bfe9-f1b7d7cf8008.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz.tbi',
-        vcf2: 'https://somatic-browser-test.s3.amazonaws.com/browserExamples/b27d75ba-5989-4200-bfe9-f1b7d7cf8008.consensus.20161006.somatic.indel.sorted.vcf.gz',
-        vcf2Index:
-            'https://somatic-browser-test.s3.amazonaws.com/browserExamples/b27d75ba-5989-4200-bfe9-f1b7d7cf8008.consensus.20161006.somatic.indel.sorted.vcf.gz.tbi',
-        thumbnail: _b27d75ba
-    },
-    {
-        group: 'default',
-        id: 'fc8edf46-2005-1af4-e040-11ac0d481414',
-        cancer: 'breast',
-        assembly: 'hg19',
-        sv: 'https://s3.amazonaws.com/gosling-lang.org/data/SV/fc8edf46-2005-1af4-e040-11ac0d481414.pcawg_consensus_1.6.161022.somatic.sv.bedpe',
-        cnv: 'https://s3.amazonaws.com/gosling-lang.org/data/SV/fc8edf46-2005-1af4-e040-11ac0d481414.consensus.20170119.somatic.cna.annotated.txt',
-        vcf: 'https://somatic-browser-test.s3.amazonaws.com/browserExamples/fc8edf46-2005-1af4-e040-11ac0d481414.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz',
-        vcfIndex:
-            'https://somatic-browser-test.s3.amazonaws.com/browserExamples/fc8edf46-2005-1af4-e040-11ac0d481414.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz.tbi',
-        vcf2: 'https://somatic-browser-test.s3.amazonaws.com/browserExamples/fc8edf46-2005-1af4-e040-11ac0d481414.consensus.20161006.somatic.indel.sorted.vcf.gz',
-        vcf2Index:
-            'https://somatic-browser-test.s3.amazonaws.com/browserExamples/fc8edf46-2005-1af4-e040-11ac0d481414.consensus.20161006.somatic.indel.sorted.vcf.gz.tbi',
-        thumbnail: _fc8edf46
-    },
-    // {
-    //     group: 'default',
-    //     id: 'SRR7890905',
-    //     cancer: 'breast',
-    //     assembly: 'hg38',
-    //     sv: 'https://somatic-browser-test.s3.amazonaws.com/SVTYPE_SV_test_tumor_normal_with_panel.bedpe',
-    //     cnv: 'https://gist.githubusercontent.com/sehilyi/6fbceae35756b13472332d6b81b10803/raw/596428a8b0ebc00e7f8cbc52b050db0fbd6e19a5/SRR7890943.ascat.v3.cnv.tsv',
-    //     bam: 'https://somatic-browser-test.s3.amazonaws.com/SRR7890905_GAPFI2USVS21.bam',
-    //     bai: 'https://somatic-browser-test.s3.amazonaws.com/SRR7890905_GAPFI2USVS21.bam.bai',
-    //     thumbnail: _SRR7890905
-    // },
-    {
-        group: 'default',
-        id: 'bc0dee07-de20-44d6-be65-05af7e63ac96', // GACA-CN-
-        cancer: 'gastric',
-        assembly: 'hg19',
-        sv: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/bc0dee07-de20-44d6-be65-05af7e63ac96.pcawg_consensus_1.6.161116.somatic.sv.bedpe',
-        cnv: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/bc0dee07-de20-44d6-be65-05af7e63ac96.consensus.20170119.somatic.cna.txt',
-        vcf: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/bc0dee07-de20-44d6-be65-05af7e63ac96.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz',
-        vcfIndex:
-            'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/bc0dee07-de20-44d6-be65-05af7e63ac96.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz.tbi',
-        vcf2: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/bc0dee07-de20-44d6-be65-05af7e63ac96.consensus.20161006.somatic.indel.sorted.vcf.gz',
-        vcf2Index:
-            'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/bc0dee07-de20-44d6-be65-05af7e63ac96.consensus.20161006.somatic.indel.sorted.vcf.gz.tbi',
-        thumbnail: _bc0dee07
-    },
-    {
-        group: 'default',
-        id: 'f1504811-8363-41e6-b43c-62452b1262d3', // OV-AU-
-        cancer: 'ovarian',
-        assembly: 'hg19',
-        sv: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/f1504811-8363-41e6-b43c-62452b1262d3.pcawg_consensus_1.6.161116.somatic.sv.bedpe',
-        cnv: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/f1504811-8363-41e6-b43c-62452b1262d3.consensus.20170119.somatic.cna.txt',
-        vcf: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/f1504811-8363-41e6-b43c-62452b1262d3.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz',
-        vcfIndex:
-            'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/f1504811-8363-41e6-b43c-62452b1262d3.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz.tbi',
-        vcf2: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/f1504811-8363-41e6-b43c-62452b1262d3.consensus.20161006.somatic.indel.sorted.vcf.gz',
-        vcf2Index:
-            'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/f1504811-8363-41e6-b43c-62452b1262d3.consensus.20161006.somatic.indel.sorted.vcf.gz.tbi',
-        thumbnail: _f1504811
-    },
-    {
-        group: 'default',
-        id: '89dad92e-5b3f-479a-a6da-a94ee7df7f8a', // OV-AU-
-        cancer: 'ovarian',
-        assembly: 'hg19',
-        sv: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/89dad92e-5b3f-479a-a6da-a94ee7df7f8a.pcawg_consensus_1.6.161116.somatic.sv.bedpe',
-        cnv: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/89dad92e-5b3f-479a-a6da-a94ee7df7f8a.consensus.20170119.somatic.cna.txt',
-        vcf: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/89dad92e-5b3f-479a-a6da-a94ee7df7f8a.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz',
-        vcfIndex:
-            'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/89dad92e-5b3f-479a-a6da-a94ee7df7f8a.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz.tbi',
-        vcf2: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/89dad92e-5b3f-479a-a6da-a94ee7df7f8a.consensus.20161006.somatic.indel.sorted.vcf.gz',
-        vcf2Index:
-            'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/89dad92e-5b3f-479a-a6da-a94ee7df7f8a.consensus.20161006.somatic.indel.sorted.vcf.gz.tbi',
-        thumbnail: _89dad92e
-    },
-    {
-        group: 'default',
-        id: 'b243adb4-b3e7-4e0e-bc0d-625aa8dbb1be', // OV-US-
-        cancer: 'ovarian serous cystadenocarcinoma',
-        assembly: 'hg19',
-        sv: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/b243adb4-b3e7-4e0e-bc0d-625aa8dbb1be.pcawg_consensus_1.6.161116.somatic.sv.bedpe',
-        cnv: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/b243adb4-b3e7-4e0e-bc0d-625aa8dbb1be.consensus.20170119.somatic.cna.txt',
-        vcf: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/b243adb4-b3e7-4e0e-bc0d-625aa8dbb1be.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz',
-        vcfIndex:
-            'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/b243adb4-b3e7-4e0e-bc0d-625aa8dbb1be.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz.tbi',
-        vcf2: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/b243adb4-b3e7-4e0e-bc0d-625aa8dbb1be.consensus.20161006.somatic.indel.sorted.vcf.gz',
-        vcf2Index:
-            'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/b243adb4-b3e7-4e0e-bc0d-625aa8dbb1be.consensus.20161006.somatic.indel.sorted.vcf.gz.tbi',
-        thumbnail: _b243adb4
-    },
-    {
-        group: 'default',
-        id: '84ca6ab0-9edc-4636-9d27-55cdba334d7d',
-        cancer: 'ovarian',
-        assembly: 'hg19',
-        sv: 'https://s3.amazonaws.com/gosling-lang.org/data/SV/84ca6ab0-9edc-4636-9d27-55cdba334d7d.pcawg_consensus_1.6.161022.somatic.sv.bedpe',
-        cnv: 'https://s3.amazonaws.com/gosling-lang.org/data/SV/84ca6ab0-9edc-4636-9d27-55cdba334d7d.consensus.20170119.somatic.cna.annotated.txt',
-        vcf: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/84ca6ab0-9edc-4636-9d27-55cdba334d7d.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz',
-        vcfIndex:
-            'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/84ca6ab0-9edc-4636-9d27-55cdba334d7d.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz.tbi',
-        vcf2: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/84ca6ab0-9edc-4636-9d27-55cdba334d7d.consensus.20161006.somatic.indel.sorted.vcf.gz',
-        vcf2Index:
-            'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/84ca6ab0-9edc-4636-9d27-55cdba334d7d.consensus.20161006.somatic.indel.sorted.vcf.gz.tbi',
-        thumbnail: _84ca6ab0
-    },
-    {
-        group: 'default',
-        id: '0bfd1043-816e-e3e4-e050-11ac0c4860c5', // OV-US-
-        cancer: 'prostate adenocarcinoma',
-        assembly: 'hg19',
-        sv: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/0bfd1043-816e-e3e4-e050-11ac0c4860c5.pcawg_consensus_1.6.161116.somatic.sv.bedpe',
-        cnv: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/0bfd1043-816e-e3e4-e050-11ac0c4860c5.consensus.20170119.somatic.cna.txt',
-        vcf: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/0bfd1043-816e-e3e4-e050-11ac0c4860c5.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz',
-        vcfIndex:
-            'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/0bfd1043-816e-e3e4-e050-11ac0c4860c5.consensus.20160830.somatic.snv_mnv.sorted.vcf.gz.tbi',
-        vcf2: 'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/0bfd1043-816e-e3e4-e050-11ac0c4860c5.consensus.20161006.somatic.indel.sorted.vcf.gz',
-        vcf2Index:
-            'https://somatic-browser-test.s3.amazonaws.com/cdk12cancers/0bfd1043-816e-e3e4-e050-11ac0c4860c5.consensus.20161006.somatic.indel.sorted.vcf.gz.tbi',
-        thumbnail: _0bfd1043
     }
 ];
 

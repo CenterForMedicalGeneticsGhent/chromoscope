@@ -7,9 +7,7 @@ export default function cnv(
     width: number,
     height: number,
     mode: TrackMode,
-    cnFields: [string, string, string] = ['total_cn', 'major_cn', 'minor_cn']
 ): OverlaidTracks {
-    const [total_cn, major_cn, minor_cn] = cnFields;
     return {
         id: `${sampleId}-${mode}-cnv`,
         title: mode === 'small' ? '' : 'Copy Number Variants',
@@ -18,7 +16,7 @@ export default function cnv(
             separator: '\t',
             url: cnvUrl,
             type: 'csv',
-            chromosomeField: 'chromosome',
+            chromosomeField: 'seqnames',
             genomicFields: ['start', 'end']
         },
         mark: 'rect',
@@ -27,23 +25,33 @@ export default function cnv(
         alignment: 'overlay',
         tracks: [
             {
-                y: { field: total_cn, type: 'quantitative', axis: 'right', grid: true, range: [0 + 10, height - 10] },
-                color: { value: '#808080' }
+                mark: 'point',
+                y: { field: 'ratio', type: 'quantitative', axis: 'right', grid: true, range: [0 + 10, height - 10], domain: [-2, 2] },
+                color: { value: '#ADD8E6' },
+                stroke: { value: '#808080' },
+                strokeWidth: { value: 1 },
+                opacity: { value: 0.6 }
+            },
+            {
+                mark: 'line',
+                y: { field: 'seg.mean', type: 'quantitative', axis: 'right', grid: true, range: [0 + 10, height - 10], domain: [-2, 2] },
+                color: { value: '#008080' },
+                size: { value: 4 },
+                stroke: { value: '#000000' },
+                strokeWidth: { value: 2 },
+                opacity: { value: 1 }
             }
-            // {
-            //     y: { field: 'minor_cn', type: 'quantitative', axis: 'right', grid: true },
-            //     color: { value: 'red' },
-            //}
         ],
         tooltip: [
-            { field: total_cn, type: 'quantitative' },
-            { field: major_cn, type: 'quantitative' },
-            { field: minor_cn, type: 'quantitative' }
+
+            { field: 'seqnames', type: 'nominal', alt: 'Chromosome' },
+            { field: 'start', type: 'genomic', alt: 'Start' },
+            { field: 'end', type: 'genomic', alt: 'End' },
+            { field: 'ratio', type: 'quantitative', format: '.5f' },
+            { field: 'seg.start', type: 'quantitative', alt: 'Segment Start' },
+            { field: 'seg.end', type: 'quantitative', alt: 'Segment End' },
+            { field: 'seg.mean', type: 'quantitative' }
         ],
-        size: { value: 5 },
-        stroke: { value: '#808080' },
-        strokeWidth: { value: 1 },
-        opacity: { value: 0.7 },
         width,
         height
     };

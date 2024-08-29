@@ -4,8 +4,6 @@ import { debounce, sample } from 'lodash';
 import type { RouteComponentProps } from 'react-router-dom';
 import generateSpec from './main-spec';
 import ErrorBoundary from './error';
-import _allDrivers from './data/driver.json';
-import _customDrivers from './data/driver.custom.json';
 import samples, { SampleType } from './data/samples';
 import getOneOfSmallMultiplesSpec from './small-multiples-spec';
 import { CHROMOSOMES, THEME, WHOLE_CHROMOSOME_STR } from './constants';
@@ -21,7 +19,6 @@ import CancerSelector from './ui/cancer-selector';
 import HorizontalLine from './ui/horizontal-line';
 import SampleConfigForm from './ui/sample-config-form';
 import { BrowserDatabase } from './browser-log';
-import legend from './legend.png';
 import UrlsafeCodec from './lib/urlsafe-codec';
 
 const db = new Database();
@@ -36,15 +33,6 @@ const VIS_PADDING = 60;
 const ZOOM_PADDING = 200;
 const ZOOM_DURATION = 500;
 
-const allDrivers = [
-    ...(_allDrivers as any),
-    ..._customDrivers.map(d => {
-        return { ...d, sample_id: 'SRR7890905' };
-    }),
-    ..._customDrivers.map(d => {
-        return { ...d, sample_id: 'SRR7890905_Hartwig' };
-    })
-];
 
 function App(props: RouteComponentProps) {
     // URL parameters
@@ -94,15 +82,10 @@ function App(props: RouteComponentProps) {
     const [filterSampleBy, setFilterSampleBy] = useState('');
     const [filteredSamples, setFilteredSamples] = useState(selectedSamples);
     const [showOverview, setShowOverview] = useState(true);
-    const [showPutativeDriver, setShowPutativeDriver] = useState(true);
     const [interactiveMode, setInteractiveMode] = useState(false);
     const [visPanelWidth, setVisPanelWidth] = useState(INIT_VIS_PANEL_WIDTH - VIS_PADDING * 2);
     const [overviewChr, setOverviewChr] = useState('');
     const [genomeViewChr, setGenomeViewChr] = useState('');
-    const [drivers, setDrivers] = useState(
-        typeof demo.drivers === 'string' && demo.drivers.split('.').pop() === 'json' ? [] : getFilteredDrivers(demo.id)
-    );
-    const [selectedSvId, setSelectedSvId] = useState<string>('');
     const [breakpoints, setBreakpoints] = useState<[number, number, number, number]>([1, 100, 1, 100]);
     const [bpIntervals, setBpIntervals] = useState<[number, number, number, number] | undefined>();
     const [mouseOnVis, setMouseOnVis] = useState(false);
@@ -116,57 +99,7 @@ function App(props: RouteComponentProps) {
     const rightReads = useRef<{ [k: string]: number | string }[]>([]);
     const [svReads, setSvReads] = useState<{ name: string; type: string }[]>([]);
 
-    function getFilteredDrivers(demoId: string) {
-        return (allDrivers as any).filter((d: any) => d.sample_id === demoId && +d.pos);
-    }
 
-    // update demo
-    useEffect(() => {
-        if (typeof demo.drivers === 'string' && demo.drivers.split('.').pop() === 'json') {
-            // we want to change this json file to json value
-            fetch(demo.drivers).then(response =>
-                response.text().then(d => {
-                    const customDrivers = JSON.parse(d);
-                    // TODO: these need to be supported in other types of data
-                    customDrivers.forEach(d => {
-                        const optionalFields = [
-                            'ref',
-                            'alt',
-                            'category',
-                            'top_category',
-                            'transcript_consequence',
-                            'protein-mutation',
-                            'allele_fraction',
-                            'mutation_type',
-                            'biallelic'
-                        ];
-                        optionalFields.forEach(f => {
-                            if (!d[f]) {
-                                d[f] = '';
-                            }
-                        });
-                        if (typeof d['biallelic'] === 'string' && d['biallelic'].toUpperCase() === 'YES') {
-                            d['biallelic'] = 'yes';
-                        }
-                        if (typeof d['biallelic'] === 'string' && d['biallelic'].toUpperCase() === 'NO') {
-                            d['biallelic'] = 'no';
-                        }
-                    });
-
-                    setDrivers(customDrivers);
-                })
-            );
-        } else {
-            const filteredDrivers = getFilteredDrivers(demo.id);
-            setDrivers(filteredDrivers);
-        }
-
-        setOverviewChr('');
-        setGenomeViewChr('');
-        setSelectedSvId('');
-        leftReads.current = [];
-        rightReads.current = [];
-    }, [demo]);
 
     function isWebAddress(url) {
         return url.startsWith('http://') || url.startsWith('https://');
@@ -215,91 +148,19 @@ function App(props: RouteComponentProps) {
     }, [filterSampleBy]);
 
     useEffect(() => {
-        if (!gosRef.current || !demo.bai || !demo.bam) return;
-
-        gosRef.current.api.subscribe('rawData', (type: string, e: any) => {
-            if (e.id.includes('bam') && (leftReads.current.length === 0 || rightReads.current.length === 0)) {
-                const isThisPotentiallyJsonRuleData = typeof e.data[0]?.name === 'undefined';
-                if (isThisPotentiallyJsonRuleData) {
-                    return;
-                }
-
-                /// DEBUG
-                // console.log(e.id, e.data);
-                ///
-
-                // This means we just received a BAM data that is just rendered
-                if (e.id.includes('left') && leftReads.current.length === 0) {
-                    leftReads.current = e.data;
-                } else if (e.id.includes('right') && rightReads.current.length === 0) {
-                    rightReads.current = e.data;
-                }
-
-                // !! This is to drop duplicated data records.
-                // Multiple tracks overlaid on alignment tracks makes duplicated data records.
-                leftReads.current = Array.from(new Set(leftReads.current.map(d => JSON.stringify(d)))).map(d =>
-                    JSON.parse(d)
-                );
-                rightReads.current = Array.from(new Set(rightReads.current.map(d => JSON.stringify(d)))).map(d =>
-                    JSON.parse(d)
-                );
-
-                // Reads on both views prepared?
-                if (leftReads.current.length !== 0 && rightReads.current.length !== 0) {
-                    const mates = leftReads.current
-                        .filter(l => rightReads.current.filter(r => r.name === l.name && r.id !== l.id).length !== 0)
-                        .map(d => d.name as string);
-
-                    const matesWithSv = mates.map(name => {
-                        const matesOnLeft = leftReads.current.filter(d => d.name === name);
-                        const matesOnRight = rightReads.current.filter(d => d.name === name);
-
-                        if (matesOnLeft.length !== 1 || matesOnRight.length !== 1) {
-                            // We do not do anything for this case for now.
-                            return { name, type: 'unknown' };
-                        }
-
-                        // console.log(matesOnLeft[0], matesOnRight[0]);
-                        const ld = matesOnLeft[0].strand;
-                        const rd = matesOnRight[0].strand;
-
-                        if (matesOnLeft[0].chrName !== matesOnRight[0].chrName) return { name, type: 'Translocation' };
-                        if (ld === '+' && rd === '-') return { name, type: 'Deletion' };
-                        if (ld === '-' && rd === '-') return { name, type: 'Inversion (TtT)' };
-                        if (ld === '+' && rd === '+') return { name, type: 'Inversion (HtH)' };
-                        if (ld === '-' && rd === '+') return { name, type: 'Duplication' };
-                        return { name, type: 'unknown' };
-                    });
-
-                    if (
-                        matesWithSv
-                            .map(d => d.name)
-                            .sort()
-                            .join() !==
-                        svReads
-                            .map(d => d.name)
-                            .sort()
-                            .join()
-                    ) {
-                        setSvReads(matesWithSv);
-                    }
-                }
-            }
-        });
-
-        return () => {
-            gosRef.current.api.unsubscribe('rawData');
-        };
-    }, [gosRef, svReads, demo]);
-
-    useEffect(() => {
         if (!overviewChr) return;
 
         if (overviewChr.includes('chr')) {
             gosRef.current?.api.zoomTo(`${demo.id}-top-ideogram`, overviewChr, 0, 0);
             setTimeout(() => setGenomeViewChr(overviewChr), 0);
+            gosRef.current?.api.zoomTo(`${demo.id}-top-GQbin`, overviewChr, 0, 0);
+            gosRef.current?.api.zoomTo(`${demo.id}-top-AFbin`, overviewChr, 0, 0);
+            gosRef.current?.api.zoomTo(`${demo.id}-top-DPbin`, overviewChr, 0, 0);
         } else {
             gosRef.current?.api.zoomToExtent(`${demo.id}-top-ideogram`, ZOOM_DURATION);
+            gosRef.current?.api.zoomToExtent(`${demo.id}-top-GQbin`, ZOOM_DURATION);
+            gosRef.current?.api.zoomToExtent(`${demo.id}-top-AFbin`, ZOOM_DURATION);
+            gosRef.current?.api.zoomToExtent(`${demo.id}-top-DPbin`, ZOOM_DURATION);
         }
     }, [overviewChr]);
 
@@ -441,12 +302,6 @@ function App(props: RouteComponentProps) {
                     <div className={d.vcf && d.vcfIndex ? 'tag-pm' : 'tag-disabled'}>
                         {AvailabilityIcon(!!d.vcf && !!d.vcfIndex)}Point Mutation
                     </div>
-                    <div className={d.vcf2 && d.vcf2Index ? 'tag-id' : 'tag-disabled'}>
-                        {AvailabilityIcon(!!d.vcf2 && !!d.vcf2Index)}Indel
-                    </div>
-                    <div className={d.bam && d.bai ? 'tag-ra' : 'tag-disabled'}>
-                        {AvailabilityIcon(!!d.bam && !!d.bai)}Read Alignment
-                    </div>
                     {d.note ? <div className="tag-note">{d.note}</div> : null}
                 </div>
             </div>
@@ -487,20 +342,12 @@ function App(props: RouteComponentProps) {
         </>
     );
     const goslingComponent = useMemo(() => {
-        const loadingCustomJSONDrivers = typeof demo.drivers === 'string' && demo.drivers.split('.').pop() === 'json';
-        const isStillLoadingDrivers = loadingCustomJSONDrivers && drivers.length == 0;
-        if (!ready || isStillLoadingDrivers) return null;
-
-        const useCustomDrivers = loadingCustomJSONDrivers || !demo.drivers;
         const spec = generateSpec({
             ...demo,
             showOverview,
             xDomain: xDomain as [number, number],
             xOffset: 0,
-            showPutativeDriver,
             width: visPanelWidth,
-            drivers: useCustomDrivers ? drivers : demo.drivers,
-            selectedSvId,
             breakpoints: breakpoints,
             crossChr: false,
             bpIntervals,
@@ -522,7 +369,7 @@ function App(props: RouteComponentProps) {
             </div>
         );
         // !! Removed `demo` not to update twice since `drivers` are updated right after a demo update.
-    }, [ready, xDomain, visPanelWidth, drivers, showOverview, showPutativeDriver, selectedSvId, breakpoints, svReads]);
+    }, [ready, xDomain, visPanelWidth, showOverview, breakpoints, svReads]);
 
     useLayoutEffect(() => {
         if (!gosRef.current) return;
@@ -562,7 +409,6 @@ function App(props: RouteComponentProps) {
             // we will show the bam files, so set the initial positions
             setBreakpoints([+x - ZOOM_PADDING, +xe + ZOOM_PADDING, +x1 - ZOOM_PADDING, +x1e + ZOOM_PADDING]);
             setBpIntervals([x, xe, x1, x1e]);
-            setSelectedSvId(e.data[0].sv_id + '');
 
             // move to the bottom
             setTimeout(
@@ -1038,16 +884,6 @@ function App(props: RouteComponentProps) {
                                     );
                                 })}
                             </select>
-                            <img
-                                src={legend}
-                                style={{
-                                    position: 'absolute',
-                                    right: '3px',
-                                    top: '3px',
-                                    zIndex: 998,
-                                    width: '120px'
-                                }}
-                            />
                             <select
                                 style={{
                                     pointerEvents: 'auto',

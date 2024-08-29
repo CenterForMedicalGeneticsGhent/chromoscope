@@ -10,7 +10,16 @@ import boundary from './boundary';
 import baf from './baf';
 import biAlleleFrequency from './Bi_allel_example';
 import mendelianErrors from './mendelianErrors';
-import parentMapping from './parentMapping'
+import mendelianErrors2 from './mendelianErros2';
+import parentMapping from './parentMapping';
+import roi from './roi';
+import GQbin from './GQbin';
+import GQdetail from './GQdetail';
+import AFbin from './AFbin';
+import AFdetail from './AFdetail';
+import DPbin from './DPbin';
+import DPdetail from './DPdetail';
+import PLdetail from './PLdetail';
 
 export type TrackMode = 'small' | 'top' | 'mid';
 
@@ -27,5 +36,14 @@ export default {
     baf,
     biAlleleFrequency,
     mendelianErrors,
+    mendelianErrors2,
     parentMapping,
+    roi,
+    GQbin,
+    GQdetail,
+    AFbin,
+    AFdetail,
+    DPbin,
+    DPdetail,
+    PLdetail
 };
