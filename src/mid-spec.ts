@@ -15,6 +15,7 @@ export default function getMidView(option: SpecOption): View[] {
         me,
         me2,
         pm,
+        haplo,
         roi,
         width,
         cnFields
@@ -81,18 +82,19 @@ export default function getMidView(option: SpecOption): View[] {
 
                 ...(!baf 
                     ? [] 
-                    :[tracks.baf(id, baf, width, 240, 'mid'),
-                        tracks.boundary('baf', 'mid'),
-                        tracks.roi('baf', roi, 'mid')
-                    ]),
-
-                ...(!vcf
+                    :[tracks.baf(id, baf, width, 240, 'mid')]),
+                    ...(!haplo 
+                        ? [] 
+                        :[tracks.haplo(id, haplo, width, 300, 'mid'),
+                            tracks.boundary('haplo', 'mid'),
+                        tracks.roi('haplo', roi, 'mid')
+                        ]),    
+                    ...(!vcf
                     ? []
                     : [tracks.mutation(id, vcf, vcfIndex, width, 60, 'mid'), tracks.boundary('mutation', 'mid'),
                         tracks.boundary('mutation', 'mid'),
                         tracks.roi('mutation', roi, 'mid')
                     ]),
-
                 tracks.cnv(id, cnv, width, 200, 'mid'),
                 tracks.boundary('cnv', 'mid'),
                 tracks.roi('cnv', roi, 'mid'),

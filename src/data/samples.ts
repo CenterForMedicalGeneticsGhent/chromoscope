@@ -23,7 +23,8 @@ export type SampleType = {
     me?: string;
     me2?: string;
     pm?: string;
-    roi?: string;
+    haplo?: string;
+    roi ?: string;
     baf?: string;
     vcf?: string;
     vcfIndex?: string;
@@ -48,10 +49,13 @@ const samples: SampleType[] = [
         assembly: 'hg38',
         vcf: 'https://somatic-browser-test.s3.amazonaws.com/SNV_test_tumor_normal_with_panel.vcf.gz',
         vcfIndex: 'https://somatic-browser-test.s3.amazonaws.com/SNV_test_tumor_normal_with_panel.vcf.gz.tbi',
-        cnv: 'https://gist.githubusercontent.com/nicolasdebusschere/350bf6f66a8513bd4ab6ac4c6fa5d00a/raw/64341c369ef7e6ae1b692d32e833d68c1b34b751/CNV_sample.tsv',
-        me: 'https://gist.githubusercontent.com/Maximvan/60a5f23de4b9a1fb8edc2a25ef079075/raw/870af34036718a64b78f058a0e53941418820afc/me_1mbp.csv',
-        me2: 'https://gist.githubusercontent.com/Maximvan/3daf900566eeaf198256f42e4a1f73f0/raw/394de4ff86b7b0b0319f7e94c12c42f66e2dad3f/me_detail.csv',
-        pm: 'https://gist.githubusercontent.com/Maximvan/8c30172d4852ae16ad346a728073546b/raw/edb67b4144840387fb3acf32d01719548e4e6e2a/parent_mapping.csv',
+        vcf2: 'https://somatic-browser-test.s3.amazonaws.com/INDEL_test_tumor_normal_with_panel.vcf.gz',
+        vcf2Index: 'https://somatic-browser-test.s3.amazonaws.com/INDEL_test_tumor_normal_with_panel.vcf.gz.tbi',
+        cnv: 'https://gist.githubusercontent.com/sehilyi/6fbceae35756b13472332d6b81b10803/raw/596428a8b0ebc00e7f8cbc52b050db0fbd6e19a5/SRR7890943.ascat.v3.cnv.tsv',
+        me: 'https://gist.githubusercontent.com/Maximvan/e235c862e2e05330428bfc1593709f41/raw/794d148d7820dd1b5aff1377fdf5e106fd4cd6c3/x.csv',
+        me2: 'https://gist.githubusercontent.com/Maximvan/e4fdc9ad80ed9477a793f1ccdeeca298/raw/2d7283e83039e63e72da77fb32f966da7e787ec3/x_detail.csv',
+        pm: 'https://gist.githubusercontent.com/Maximvan/09b840919ff017ddc0c1e33bc48152c0/raw/874d04ad1dbce4504da23ec487afbb83ec0e8f51/parentmapping.csv',
+        haplo: 'http://localhost:8000/output_dat_haplo_correct.tsv',
         roi: 'https://gist.githubusercontent.com/Maximvan/6d47f196bcac0f28c64b2e491c231a7f/raw/d27d8d1da4531b7740457afba6471de9d74a59fb/ROI.csv',
         note: 'CNV profile - ASCAT. SVs - Sentieon. Mutations and indels - Sentieon',
         binStats: 'https://gist.githubusercontent.com/Maximvan/2095620fd812dc3a708fae3905d16573/raw/e25e46b348da485c8ea0ae10303a0bedac854ebe/binned_stats.tsv',

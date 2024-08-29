@@ -25,6 +25,14 @@ export default function mutation(
         color: { field: 'SUBTYPE', type: 'nominal', legend: true, domain: ['C>A', 'C>G', 'C>T', 'T>A', 'T>C', 'T>G'] },
         y: { field: 'DISTPREVLOGE', type: 'quantitative', axis: 'left', range: [10, height - 10] },
         opacity: { value: 0.9 },
+        visibility: [
+            {
+                operation: 'LT',
+                measure: 'zoomLevel',
+                threshold: 10000000,
+                target: 'mark'
+            }
+        ],
         tooltip: [
             { field: 'DISTPREV', type: 'nominal', format: 's1', alt: 'Distance To Previous Mutation (BP)' },
             { field: 'POS', type: 'genomic' },

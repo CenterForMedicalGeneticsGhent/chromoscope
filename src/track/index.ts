@@ -10,6 +10,7 @@ import boundary from './boundary';
 import baf from './baf';
 import biAlleleFrequency from './Bi_allel_example';
 import mendelianErrors from './mendelianErrors';
+import haplo from './haplo';
 import mendelianErrors2 from './mendelianErros2';
 import parentMapping from './parentMapping';
 import roi from './roi';
@@ -38,6 +39,7 @@ export default {
     mendelianErrors,
     mendelianErrors2,
     parentMapping,
+    haplo,
     roi,
     GQbin,
     GQdetail,
