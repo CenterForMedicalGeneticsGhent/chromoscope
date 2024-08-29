@@ -27,6 +27,7 @@ export default function getMidView(option: SpecOption): View[] {
             layout: 'linear',
             tracks: [
                 {
+                    title: '  Ideogram',
                     id: `${id}-mid-ideogram`,
                     alignment: 'overlay',
                     data: {

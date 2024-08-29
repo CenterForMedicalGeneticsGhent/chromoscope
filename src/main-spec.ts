@@ -13,7 +13,6 @@ export interface SpecOption extends SampleType {
     xOffset: number;
     width: number;
     breakpoints: [number, number, number, number];
-    svReads: { name: string; type: string }[];
     crossChr: boolean;
     bpIntervals: [number, number, number, number] | undefined;
     spacing: number;
@@ -77,7 +76,7 @@ function generateSpec(opt: SpecOption): GoslingSpec {
 }
 
 function getOverviewSpec(option: SpecOption): View[] {
-    const { assembly, id, vcf, vcfIndex, summary, roi, width, showOverview, xOffset, cnFields } =
+    const { assembly, id,  summary, roi, width, showOverview, xOffset} =
         option;
 
     if (!showOverview) return [];
@@ -94,6 +93,7 @@ function getOverviewSpec(option: SpecOption): View[] {
             },
             tracks: [
                 {
+                    title: 'Ideogram',
                     id: `${id}-top-ideogram`,
                     alignment: 'overlay',
                     data: {
