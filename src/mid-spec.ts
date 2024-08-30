@@ -80,41 +80,40 @@ export default function getMidView(option: SpecOption): View[] {
                     height: 18
                 },
                 tracks.roi(`${id}-mid-ideogram`, roi, 'mid'),
-
-                ...(!baf 
-                    ? [] 
-                    :[tracks.baf(id, baf, width, 240, 'mid')]),
-                    ...(!haplo 
-                        ? [] 
-                        :[tracks.haplo(id, haplo, width, 300, 'mid'),
-                            tracks.boundary('haplo', 'mid'),
-                        tracks.roi('haplo', roi, 'mid')
-                        ]),    
-                    ...(!vcf
+                ...(!baf
+                    ? []
+                    : [tracks.baf(id, baf, width, 240, 'mid')]),
+                ...(!haplo
+                    ? []
+                    : [tracks.haplo(id, haplo, width, 300, 'mid'),
+                    tracks.boundary('haplo', 'mid'),
+                    tracks.roi('haplo', roi, 'mid')
+                    ]),
+                ...(!vcf
                     ? []
                     : [tracks.mutation(id, vcf, vcfIndex, width, 60, 'mid'), tracks.boundary('mutation', 'mid'),
-                        tracks.boundary('mutation', 'mid'),
-                        tracks.roi('mutation', roi, 'mid')
+                    tracks.boundary('mutation', 'mid'),
+                    tracks.roi('mutation', roi, 'mid')
                     ]),
-                tracks.cnv(id, cnv, width, 200, 'mid'),
-                tracks.boundary('cnv', 'mid'),
-                tracks.roi('cnv', roi, 'mid'),
-
+                ...(!cnv
+                    ? []
+                    : [tracks.cnv(id, cnv, width, 200, 'mid'),
+                    tracks.boundary('cnv', 'mid'),
+                    tracks.roi('cnv', roi, 'mid'),
+                    ]),
                 ...(!me
-                   ? []
+                    ? []
                     : [tracks.mendelianErrors(id, me, width, 60, 'mid', cnFields),
-                        tracks.mendelianErrors2('me', me2, 'mid', cnFields),
-                        tracks.boundary('me', 'mid'),
-                        tracks.roi('me', roi, 'mid')
+                    tracks.mendelianErrors2('me', me2, 'mid', cnFields),
+                    tracks.boundary('me', 'mid'),
+                    tracks.roi('me', roi, 'mid')
                     ]),
-
                 ...(!pm
                     ? []
                     : [tracks.parentMapping(id, pm, width, 40, 'mid'),
-                        tracks.boundary('pm', 'mid'),
-                        tracks.roi('pm', roi, 'mid')
+                    tracks.boundary('pm', 'mid'),
+                    tracks.roi('pm', roi, 'mid')
                     ]),
-
                 {
                     id: `${id}-mid-ideogram-bottom`,
                     alignment: 'overlay',

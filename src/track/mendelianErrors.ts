@@ -43,7 +43,7 @@ export default function mendelianErrors(
 
     return {
         id: `${sampleId}-${mode}-mendelian-errors`,
-        title: mode === 'small' ? '' : 'Mendelian Errors',
+        title: '  Mendelian Errors',
         style: { background: '#FFFFFF', inlineLegend: true },
         alignment: 'overlay',
         tracks: [

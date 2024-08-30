@@ -21,7 +21,7 @@ export interface SpecOption extends SampleType {
 function generateSpec(opt: SpecOption): GoslingSpec {
     const { assembly, id, width, breakpoints, bpIntervals, spacing } = opt;
 
-    const topViewWidth = width;
+    const topViewWidth = Math.min(width, 1200);;
     const midViewWidth = width;
     const bottomViewGap = 19;
     const bottomViewWidth = width / 2.0 - bottomViewGap / 2.0;
@@ -36,7 +36,7 @@ function generateSpec(opt: SpecOption): GoslingSpec {
         arrangement: 'vertical',
         centerRadius: 0.2,
         assembly,
-        spacing: 40,
+        spacing,
         style: {
             outlineWidth: 1,
             outline: 'lightgray',
@@ -45,7 +45,6 @@ function generateSpec(opt: SpecOption): GoslingSpec {
         views: [
             {
                 arrangement: 'vertical',
-                spacing: 40,
                 views: [
                     {
 
@@ -58,8 +57,7 @@ function generateSpec(opt: SpecOption): GoslingSpec {
                             }),
                             ...getOverviewLin({
                                 ...opt,
-                                width: topViewWidth / 2 - 40,
-                                xOffset: topViewXOffset
+                                width: topViewWidth / 2 - 40
                             })
                         ]
                     },

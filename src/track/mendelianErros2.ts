@@ -11,7 +11,7 @@ export default function mendelianErrors2(
 
     return {
         id: `${parent}-${mode}-mendelian-errors2`,
-        title: mode === 'small' ? '' : 'Mendelian Errors',
+        title: '  Mendelian Errors',
         style: { inlineLegend: true },
         alignment: 'overlay',
         data: {

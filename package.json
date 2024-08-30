@@ -55,5 +55,8 @@
         "hooks": {
             "pre-commit": "yarn format && git add ."
         }
+    },
+    "peerDependencies": {
+        "@popperjs/core": "*"
     }
 }
