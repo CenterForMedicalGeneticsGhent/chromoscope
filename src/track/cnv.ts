@@ -11,7 +11,7 @@ export default function cnv(
     return {
         id: `${sampleId}-${mode}-cnv`,
         title: mode === 'small' ? '' : '  Copy Number Variants',
-        style: { background: '#FFFFFF' },
+        style: { background: '#FFFFFF', inlineLegend: true },
         data: {
             separator: '\t',
             url: cnvUrl,
