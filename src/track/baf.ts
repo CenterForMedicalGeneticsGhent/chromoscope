@@ -9,7 +9,7 @@ export default function baf(
 ): OverlaidTracks {
     return {
         id: `${sampleId}-${mode}-baf`,
-        title: mode === 'small' ? '' : 'Bi-allele Frequency',
+        title: '  Bi-allele Frequency',
         style: { background: '#FFFFFF' },
         data: {
             separator: '\t',

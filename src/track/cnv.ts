@@ -10,7 +10,7 @@ export default function cnv(
 ): OverlaidTracks {
     return {
         id: `${sampleId}-${mode}-cnv`,
-        title: mode === 'small' ? '' : '  Copy Number Variants',
+        title: '  Copy Number Variants',
         style: { background: '#FFFFFF', inlineLegend: true },
         data: {
             separator: '\t',

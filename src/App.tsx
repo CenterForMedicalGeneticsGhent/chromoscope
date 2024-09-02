@@ -385,7 +385,7 @@ function App(props: RouteComponentProps) {
             breakpoints: breakpoints,
             crossChr: false,
             bpIntervals,
-            spacing: isMinimalMode ? 100 : 40
+            spacing: isMinimalMode ? 100 : 60
         });
         currentSpec.current = JSON.stringify(spec);
         // console.log('spec', spec);
@@ -409,10 +409,13 @@ function App(props: RouteComponentProps) {
         const offset = genomeViewHeight + (isMinimalMode ? 100 : 40) - 2;
 
         // Infer the tracks shown
-        const tracksShown: Track[] = ['ideogram', 'driver', 'gene'];
+        const tracksShown: Track[] = ['ideogram'];
+        if (demo.baf) tracksShown.push('haplo');
+        if (demo.haplo) tracksShown.push('haplo');
         if (demo.vcf && demo.vcfIndex) tracksShown.push('mutation');
-        if (demo.vcf2 && demo.vcf2Index) tracksShown.push('indel');
-        if (demo.cnv) tracksShown.push('cnv', 'gain', 'loh');
+        if (demo.cnv) tracksShown.push('cnv');
+        if (demo.me) tracksShown.push('mendelian-errors');
+        if (demo.pm) tracksShown.push('parent-mapping');
         // Pushing this after the others to match order of tracks in UI
         const HEIGHTS_OF_TRACKS_SHOWN = TRACK_DATA.filter(d => tracksShown.includes(d.type));
 

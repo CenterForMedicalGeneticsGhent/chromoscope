@@ -10,7 +10,7 @@ export default function parentMapping(
 ): OverlaidTracks {
     return {
         id: `${sampleId}-${mode}-parent-mapping`,
-        title: mode === 'small' ? '' : 'Parent Mapping',
+        title: '  Parent Mapping',
         style: { background: '#F6F6F6', inlineLegend: true },
         data: {
             separator: ',',
@@ -77,7 +77,6 @@ export default function parentMapping(
                 strokeWidth : { value: 3 },
                 opacity : { value: 0.9 },
                 size: { value: height - 5 },
-                //size: {value: height / 4 },
                 tooltip: [
                     { field: 'chromosome', type: 'nominal', alt: 'Chromosome'},
                     { field: 'POS', type: 'genomic', alt: 'Position' },
@@ -87,12 +86,6 @@ export default function parentMapping(
                 ]
             }
         ],
-        //row: { // delete this if all in 1 row
-        //    field: 'parental_origin',
-        //    type: 'nominal',
-        //    legend: true,
-        //    domain: ['Mother | Homozygous', 'Mother | Heterozygous', 'Father | Homozygous', 'Father | Heterozygous']
-        //},
         opacity: { value: 0.9 },
         width,
         height

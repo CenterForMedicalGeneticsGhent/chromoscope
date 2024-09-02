@@ -10,7 +10,7 @@ export default function haplo(
 ): OverlaidTracks {
     return {
         id: `${sampleId}-${mode}-haplo`,
-        title: mode === 'small' ? '' : 'Haplotyping by Merlin',
+        title: '  Haplotyping by Merlin',
         style: { background: '#FFFFFF', inlineLegend: true},
         data: {
             separator: '\t',
