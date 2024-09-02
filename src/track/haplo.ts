@@ -17,8 +17,7 @@ export default function haplo(
             url: haploUrl,
             type: 'csv',
             chromosomeField: 'chromosome',
-            genomicFields: ['break_start', 'break_end'],
-            sampleLength: 25000
+            genomicFields: ['break_start', 'break_end']
         },
         alignment: 'overlay',
         tracks: [

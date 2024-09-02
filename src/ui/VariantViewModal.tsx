@@ -34,8 +34,7 @@ export const VariantViewModal = () => {
                                         <img src={variant_interpretation_1} alt="Variant View tracks." />
                                         <div className="text">
                                             <p>
-                                                A structural variant &#40;SV&#41; may leave a footprint on the copy
-                                                number profile and may perturb genes.
+                                                Each track in the variant view shows it's own different information about the variations. 
                                             </p>
                                         </div>
                                     </div>
@@ -76,11 +75,7 @@ export const VariantViewModal = () => {
                                         />
                                         <div className="text">
                                             <p>
-                                                <b>Click</b> - on a structural variant to show its breakpoints in the
-                                                Read View.
-                                            </p>
-                                            <p>
-                                                The positions of breakpoints are highlighted by dashed, vertical lines.
+                                                <b>Region search</b> - can be used to search and zoom in on specific genomic regions
                                             </p>
                                         </div>
                                     </div>

@@ -3,6 +3,9 @@ import genome_interactions_1 from '../script/img/modal_images/genome_view/intera
 import genome_interactions_2 from '../script/img/modal_images/genome_view/interactions_2.png';
 import genome_interactions_3 from '../script/img/modal_images/genome_view/interactions_3.png';
 import genome_interactions_4 from '../script/img/modal_images/genome_view/interactions_4.png';
+import genome_interactions_5 from '../script/img/modal_images/genome_view/interactions_5.png';
+import summary_interpretation_1 from '../script/img/modal_images/genome_view/interpretation_1.png';
+
 
 export const GenomeViewModal = () => {
     return (
@@ -55,11 +58,11 @@ export const GenomeViewModal = () => {
                                     <div className="block with-image">
                                         <img
                                             src={genome_interactions_3}
-                                            alt="Structural Variant detail pop up in Genome View."
+                                            alt="Summary of Variants detail pop up in Genome View."
                                         />
                                         <div className="text">
                                             <p>
-                                                <b>Hover</b> - over a structural variant to see detailed information.
+                                                <b>Hover</b> - over a summary of variants to see detailed information.
                                             </p>
                                         </div>
                                     </div>
@@ -67,12 +70,48 @@ export const GenomeViewModal = () => {
                                     <div className="block with-image">
                                         <img
                                             src={genome_interactions_4}
-                                            alt="Highlighted structural variant strand in Genome View."
+                                            alt="whole genome view"
                                         />
                                         <div className="text">
                                             <p>
-                                                <b>Click</b> - on a structural variant to inspect breakpoints in other
-                                                views.
+                                                <b>Dropdown menu</b> - select whole genome view or specific chromosome to view.
+                                            </p>
+                                            <p>
+                                                <b>Red line</b> - marks the region of interest. 
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="block with-image">
+                                        <img
+                                            src={genome_interactions_5}
+                                            alt="specific chromosome"
+                                        />
+                                        <div className="text">
+                                            <p>
+                                                <b>Dropdown menu</b> - show a specific chromosome.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <hr />
+                                    <div className="block with-image">
+                                        <img
+                                            src={summary_interpretation_1}
+                                            alt="summary"
+                                        />
+                                        <div className="text">
+                                            <p>
+                                                <b>Summary tracks</b> - show a summary of the data
+                                            </p>
+                                            <p>
+                                                <b>Genotype quality</b> - shows the amount of variants with a certain genotype quality (GQ) from 0-100.
+                                            </p>
+                                            <p>
+                                                <b>Allele frequency</b> - shows the amount of variants with a certain Allele frequency (AF) 0-100%
+                                            </p>
+                                            <p>
+                                                <b>Depth of coverage</b> - shows the amount of variants with a certain depth, the higher the better.
                                             </p>
                                         </div>
                                     </div>

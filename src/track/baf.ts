@@ -9,18 +9,17 @@ export default function baf(
 ): OverlaidTracks {
     return {
         id: `${sampleId}-${mode}-baf`,
-        title: '  Bi-allele Frequency',
+        title: '  B-allele Frequency',
         style: { background: '#FFFFFF' },
         data: {
             separator: '\t',
             url,
             type: 'csv',
             chromosomeField: 'chromosome',
-            genomicFields: ['start', 'end'], 
-            sampleLength:  10000
+            genomicFields: ['start', 'end']
         },
         mark: 'rect',
-        x: { field: 'start', type: 'genomic', axis: 'bottom' },
+        x: { field: 'start', type: 'genomic', axis: 'none' },
         xe: { field: 'end', type: 'genomic' },
         //x1: {field: 'chromosome', type: 'genomic', "axis": "bottom"},
         alignment: 'overlay',
