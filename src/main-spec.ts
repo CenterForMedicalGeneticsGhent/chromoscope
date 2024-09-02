@@ -1,11 +1,8 @@
 import { GoslingSpec } from 'gosling.js';
-import { Assembly, MultipleViews, SingleTrack, SingleView, View } from 'gosling.js/dist/src/gosling-schema';
+import { View } from 'gosling.js/dist/src/gosling-schema';
 import getMidView from './mid-spec';
-import { alignment } from './alignment';
-import { verticalGuide } from './vertical-guide';
 import tracks from './track';
 import { SampleType } from './data/samples';
-import { driversToTsvUrl } from './utils';
 
 export interface SpecOption extends SampleType {
     showOverview: boolean;
@@ -24,8 +21,6 @@ function generateSpec(opt: SpecOption): GoslingSpec {
     const topViewWidth = Math.min(width, 600);;
     const midViewWidth = width;
     const bottomViewGap = 19;
-    const bottomViewWidth = width / 2.0 - bottomViewGap / 2.0;
-    const topViewXOffset = (width - topViewWidth) / 2.0;
     // console.log(getOverviewSpec({
     //     ...option,
     //     width: topViewWidth,

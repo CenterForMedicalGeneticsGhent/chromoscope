@@ -30,7 +30,7 @@ export default function mutation(
                 operation: 'LT',
                 measure: 'zoomLevel',
                 threshold: 10000000,
-                target: 'mark'
+                target: 'track'
             }
         ],
         tooltip: [

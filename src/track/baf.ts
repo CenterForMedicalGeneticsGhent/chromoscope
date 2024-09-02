@@ -17,10 +17,10 @@ export default function baf(
             type: 'csv',
             chromosomeField: 'chromosome',
             genomicFields: ['start', 'end'], 
-            sampleLength:  10000
+            sampleLength:  1000
         },
         mark: 'rect',
-        x: { field: 'start', type: 'genomic', axis: 'bottom' },
+        x: { field: 'start', type: 'genomic', axis: 'none' },
         xe: { field: 'end', type: 'genomic' },
         //x1: {field: 'chromosome', type: 'genomic', "axis": "bottom"},
         alignment: 'overlay',
