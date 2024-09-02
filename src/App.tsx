@@ -65,9 +65,9 @@ function App(props: RouteComponentProps) {
     const exampleId = urlParams.get('example');
     const xDomain = urlParams.get('domain')
         ? urlParams
-              .get('domain')
-              .split('-')
-              .map(d => +d)
+            .get('domain')
+            .split('-')
+            .map(d => +d)
         : null;
     const demoIndex = useRef(+urlParams.get('demoIndex') ?? 0);
     const [showSmallMultiples, setShowSmallMultiples] = useState(externalUrl === null);
@@ -385,7 +385,7 @@ function App(props: RouteComponentProps) {
             breakpoints: breakpoints,
             crossChr: false,
             bpIntervals,
-            spacing: isMinimalMode ? 100 : 60
+            spacing: isMinimalMode ? 100 : 40
         });
         currentSpec.current = JSON.stringify(spec);
         // console.log('spec', spec);
@@ -410,7 +410,7 @@ function App(props: RouteComponentProps) {
 
         // Infer the tracks shown
         const tracksShown: Track[] = ['ideogram'];
-        if (demo.baf) tracksShown.push('haplo');
+        if (demo.baf) tracksShown.push('baf');
         if (demo.haplo) tracksShown.push('haplo');
         if (demo.vcf && demo.vcfIndex) tracksShown.push('mutation');
         if (demo.cnv) tracksShown.push('cnv');
@@ -910,9 +910,9 @@ function App(props: RouteComponentProps) {
                                                         setFilteredSamples(externalDemo);
                                                         externalDemo =
                                                             externalDemo[
-                                                                demoIndex.current < externalDemo.length
-                                                                    ? demoIndex.current
-                                                                    : 0
+                                                            demoIndex.current < externalDemo.length
+                                                                ? demoIndex.current
+                                                                : 0
                                                             ];
                                                     }
                                                     if (externalDemo) {
@@ -957,9 +957,8 @@ function App(props: RouteComponentProps) {
                                 className="jump-to-bp-btn"
                                 style={{
                                     position: 'fixed',
-                                    left: `${
-                                        jumpButtonInfo.x + 20 + (jumpButtonInfo.direction === 'leftward' ? -60 : 0)
-                                    }px`,
+                                    left: `${jumpButtonInfo.x + 20 + (jumpButtonInfo.direction === 'leftward' ? -60 : 0)
+                                        }px`,
                                     top: `${jumpButtonInfo.y}px`
                                 }}
                                 onClick={() => jumpButtonInfo.zoomTo()}
@@ -972,15 +971,14 @@ function App(props: RouteComponentProps) {
                                 style={{
                                     width: '100%',
                                     height: '100%',
-                                    boxShadow: `inset 0 0 0 3px ${
-                                        interactiveMode && mouseOnVis
-                                            ? '#2399DB'
-                                            : !interactiveMode && mouseOnVis
+                                    boxShadow: `inset 0 0 0 3px ${interactiveMode && mouseOnVis
+                                        ? '#2399DB'
+                                        : !interactiveMode && mouseOnVis
                                             ? 'lightgray'
                                             : !interactiveMode && !mouseOnVis
-                                            ? '#00000000'
-                                            : 'lightgray'
-                                    }`,
+                                                ? '#00000000'
+                                                : 'lightgray'
+                                        }`,
                                     top: VIS_PADDING.top,
                                     left: VIS_PADDING.left,
                                     opacity: 0.9,
@@ -1083,9 +1081,9 @@ function App(props: RouteComponentProps) {
                                     id="variant-view"
                                     tabIndex={3}
                                     style={{
-                                        pointerEvents: 'auto'
+                                        pointerEvents: 'auto',
                                         // !! This should be identical to how the height of circos determined.
-                                        // top: `${Math.min(visPanelWidth, 600)}px`
+                                        //top: `${Math.min(visPanelWidth, 600)}px`
                                     }}
                                     className="nav-dropdown chromosome-select"
                                     onChange={e => {
@@ -1170,64 +1168,6 @@ function App(props: RouteComponentProps) {
                                             }
                                         }}
                                     />
-                                <svg
-                                className="region-search-icon"
-                                viewBox="0 0 16 16"
-                                style={{
-                                    top: `${Math.min(visPanelWidth, 600) + 6}px`
-                                    // visibility: demo.assembly === 'hg38' ? 'visible' : 'hidden'
-                                }}
-                            >
-                                <path
-                                    fillRule="evenodd"
-                                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
-                                />
-                            </svg>
-                            <input
-                                type="text"
-                                className="region-search"
-                                placeholder="Search Region Of Interest: (e.g., chr1:1-100000)"
-                                // alt={demo.assembly === 'hg38' ? 'Search Gene' : 'Not currently available for this assembly.'}
-                                style={{
-                                    pointerEvents: 'auto',
-                                    top: `${Math.min(visPanelWidth, 600)}px`
-                                    // cursor: demo.assembly === 'hg38' ? 'auto' : 'not-allowed',
-                                    // visibility: demo.assembly === 'hg38' ? 'visible' : 'hidden'
-                                }}
-                                // disabled={demo.assembly === 'hg38' ? false : true}
-                                // onChange={(e) => {
-                                //     const keyword = e.target.value;
-                                //     if(keyword !== "" && !keyword.startsWith("c")) {
-                                //         gosRef.current.api.suggestGene(keyword, (suggestions) => {
-                                //             setGeneSuggestions(suggestions);
-                                //         });
-                                //         setSuggestionPosition({
-                                //             left: searchBoxRef.current.getBoundingClientRect().left,
-                                //             top: searchBoxRef.current.getBoundingClientRect().top + searchBoxRef.current.getBoundingClientRect().height,
-                                //         });
-                                //     } else {
-                                //         setGeneSuggestions([]);
-                                //     }
-                                //     setSearchKeyword(keyword);
-                                // }}
-                                onKeyDown={e => {
-                                    const trackId = `${demo.id}-mid-ideogram`;
-                                    const keyword = (e.target as HTMLTextAreaElement).value;
-                                    switch (e.key) {
-                                        case 'ArrowUp':
-                                            break;
-                                        case 'ArrowDown':
-                                            break;
-                                        case 'Enter':
-                                            // https://github.com/gosling-lang/gosling.js/blob/7555ab711023a0c3e2076a448756a9ba3eeb04f7/src/core/api.ts#L156
-                                            gosRef.current?.api.zoomTo(trackId, keyword, 0, ZOOM_DURATION);
-                                            break;
-                                        case 'Esc':
-                                        case 'Escape':
-                                            break;
-                                    }
-                                }}
-                            />
                                 </div>
                                 <div className="directional-controls">
                                     <div className="control-group zoom">
@@ -1329,33 +1269,74 @@ function App(props: RouteComponentProps) {
                                         </button>
                                     </div>
                                 </div>
+                                <div className='region-search'>
+                                    <svg
+                                        className="region-search-icon"
+                                        viewBox="0 0 16 16"
+                                        style={
+                                            {
+                                                // top: `${Math.min(visPanelWidth, 600) + 6}px`
+                                                // visibility: demo.assembly === 'hg38' ? 'visible' : 'hidden'
+                                            }
+                                        }
+                                    >
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                                        />
+                                    </svg>
+                                    <input
+                                        type="text"
+                                        tabIndex={3}
+                                        className="region-search"
+                                        placeholder="Search Region Of Interest: (e.g., chr1:1-100000)"
+                                        // alt={demo.assembly === 'hg38' ? 'Search Gene' : 'Not currently available for this assembly.'}
+                                        style={{
+                                            pointerEvents: 'auto',
+                                            // top: `${Math.min(visPanelWidth, 600)}px`
+                                            // cursor: demo.assembly === 'hg38' ? 'auto' : 'not-allowed',
+                                            // visibility: demo.assembly === 'hg38' ? 'visible' : 'hidden'
+                                        }}
+                                        // disabled={demo.assembly === 'hg38' ? false : true}
+                                        // onChange={(e) => {
+                                        //     const keyword = e.target.value;
+                                        //     if(keyword !== "" && !keyword.startsWith("c")) {
+                                        //         gosRef.current.api.suggestGene(keyword, (suggestions) => {
+                                        //             setGeneSuggestions(suggestions);
+                                        //         });
+                                        //         setSuggestionPosition({
+                                        //             left: searchBoxRef.current.getBoundingClientRect().left,
+                                        //             top: searchBoxRef.current.getBoundingClientRect().top + searchBoxRef.current.getBoundingClientRect().height,
+                                        //         });
+                                        //     } else {
+                                        //         setGeneSuggestions([]);
+                                        //     }
+                                        //     setSearchKeyword(keyword);
+                                        // }}
+                                        onKeyDown={e => {
+                                            const trackId = `${demo.id}-mid-ideogram`;
+                                            const keyword = (e.target as HTMLTextAreaElement).value;
+                                            switch (e.key) {
+                                                case 'ArrowUp':
+                                                    break;
+                                                case 'ArrowDown':
+                                                    break;
+                                                case 'Enter':
+                                                    // https://github.com/gosling-lang/gosling.js/blob/7555ab711023a0c3e2076a448756a9ba3eeb04f7/src/core/api.ts#L156
+                                                    gosRef.current?.api.zoomTo(trackId, keyword, 0, ZOOM_DURATION);
+                                                    break;
+                                                case 'Esc':
+                                                case 'Escape':
+                                                    break;
+                                            }
+                                        }}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {!isMinimalMode && (
-                    <div
-                        style={{
-                            visibility:
-                                ((!interactiveMode && !mouseOnVis) || (interactiveMode && mouseOnVis)) && !showSamples
-                                    ? 'visible'
-                                    : 'collapse',
-                            position: 'absolute',
-                            right: `${VIS_PADDING.right}px`,
-                            top: '60px',
-                            background: 'lightgray',
-                            color: 'black',
-                            padding: '6px',
-                            pointerEvents: 'none',
-                            zIndex: 9999,
-                            boxShadow: '0 0 20px 2px rgba(0, 0, 0, 0.2)'
-                        }}
-                    >
-                        {!interactiveMode
-                            ? 'Click inside to use interactions on visualizations'
-                            : 'Click outside to deactivate interactions and scroll the page'}
-                    </div>
-                )}
+
                 {!isMinimalMode && (
                     <div
                         style={{

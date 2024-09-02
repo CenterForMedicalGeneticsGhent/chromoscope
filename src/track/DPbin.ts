@@ -12,7 +12,7 @@ export default function DPbin(
     return {
         id: `${sampleId}-${mode}-DPbin`,
         title: 'Depth of Coverage Spectrum',
-        style: { background: '#FFFFFF', inlineLegend: true },
+        style: { background: '#F6F6F6', inlineLegend: true },
         alignment: 'overlay',
         data: {
             separator: '\t',
@@ -30,7 +30,7 @@ export default function DPbin(
                     oneOf: ['genome']
                 }],
                 mark: 'bar',
-                x: { field: 'Midpoint', type: 'genomic' },
+                x: { field: 'Midpoint', type: 'genomic', axis: 'none' },
                 y: { field: 'Amount_log_DP', type: 'quantitative', axis: 'left', range: [0, height - 20]},
                 size: { value: width / 50 },
                 color: { value: '#D55E00' },
@@ -54,7 +54,7 @@ export default function DPbin(
                 y: { field: 'Amount_log_DP', type: 'quantitative', axis: 'left', range: [0, height - 20] },
                 size: { value: width / 65 },
                 color: { value: '#D55E00' },
-                stroke: {value: 'white'},
+                stroke: {value: '#F6F6F6'},
                 strokeWidth: { value: 0.5 },
                 visibility: [{
                     threshold: 250000000,

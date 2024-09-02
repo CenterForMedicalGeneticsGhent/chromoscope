@@ -319,9 +319,9 @@ a:hover {
 .region-search {
     position: absolute;
     font-size: 14px;
-    left: 540px;
+    left: 158px;
     height: 28px;
-    width: 300px;
+    width: 350px;
     /* border-radius: 10px; */
     margin-left: 20px;
     padding-left: 29px;
@@ -858,6 +858,31 @@ a:hover {
             }
         }
     }
+    .region-search {
+        position: relative;
+        left: 0px;
+        padding: 0px;
+        width: auto;
+        height: auto;
+        display: flex;
+
+        svg {
+            position: absolute;
+            top: 50%;
+            transform: translate(0px, -50%);
+            left: 8px;
+            margin: auto;
+            margin-left: 0px;
+        }
+        input {
+            position: relative;
+            left: 0;
+            margin-left: 0;
+            border: none;
+            width: 325px;
+            padding-left: 35px;
+        }
+    }
 }
 
 .track-tooltips-container {
@@ -889,7 +914,7 @@ a:hover {
     display: flex;
     flex-direction: column;
     top: 63px;
-    left: 63px;
+    right: 63px;
 }
 
 .navigation-button-container {
@@ -1125,6 +1150,9 @@ a:hover {
         .gene-search {
             width: 210px;
         }
+        .region-search {
+            width: 350px;
+        }
     }
 }
 
@@ -1296,8 +1324,20 @@ a:hover {
                         span.text-blue {
                             color: #71b5f5;
                         }
+                        span.text-skyblue {
+                            color: #56B4E9;
+                        }
+                        span.text-darkblue {
+                            color: #0072B2;
+                        }
                         span.text-coral {
                             color: #c96a33;
+                        }
+                        span.text-vermillion {
+                            color: #D55E00;
+                        }
+                        span.text-yellow {
+                            color: #F0E442;
                         }
                         span.text-red {
                             color: #d73c3a;

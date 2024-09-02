@@ -18,7 +18,8 @@ export default function getMidView(option: SpecOption): View[] {
         haplo,
         roi,
         width,
-        cnFields
+        cnFields,
+        yOffset
     } = option;
     return [
         {
