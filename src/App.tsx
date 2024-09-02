@@ -410,7 +410,7 @@ function App(props: RouteComponentProps) {
 
         // Infer the tracks shown
         const tracksShown: Track[] = ['ideogram'];
-        if (demo.baf) tracksShown.push('haplo');
+        if (demo.baf) tracksShown.push('baf');
         if (demo.haplo) tracksShown.push('haplo');
         if (demo.vcf && demo.vcfIndex) tracksShown.push('mutation');
         if (demo.cnv) tracksShown.push('cnv');
@@ -1378,8 +1378,7 @@ function App(props: RouteComponentProps) {
                         position: 'absolute',
                         bottom: 20,
                         left: VIS_PADDING.left,
-                        pointerEvents: 'none',
-                        visibility: demo.bam ? 'collapse' : 'visible'
+                        pointerEvents: 'none'
                     }}
                 >
                     {'ⓘ No read alignment data available for this sample.'}

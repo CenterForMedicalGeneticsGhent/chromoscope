@@ -16,7 +16,8 @@ export default function baf(
             url,
             type: 'csv',
             chromosomeField: 'chromosome',
-            genomicFields: ['start', 'end']
+            genomicFields: ['start', 'end'], 
+            sampleLength:  10000
         },
         mark: 'rect',
         x: { field: 'start', type: 'genomic', axis: 'bottom' },
@@ -35,7 +36,7 @@ export default function baf(
             { field: 'BAF', type: 'quantitative' },
             { field: 'REF', type: 'nominal' },
             { field: 'ALT', type: 'nominal' },
-            { field: 'start', type: 'quantitative' },
+            { field: 'start', type: 'quantitative', alt: 'Location' },
             { field: 'chromosome', type: 'nominal' }
         ],
         size: { value: 5 },
