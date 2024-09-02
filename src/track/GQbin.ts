@@ -12,7 +12,7 @@ export default function GQbin(
     return {
         id: `${sampleId}-${mode}-GQbin`,
         title: 'Genotype Quality Spectrum',
-        style: { background: '#FFFFFF', inlineLegend: true },
+        style: { background: '#F6F6F6', inlineLegend: true },
         alignment: 'overlay',
         data: {
             separator: '\t',
@@ -30,7 +30,7 @@ export default function GQbin(
                     oneOf: ['genome']
                 }],
                 mark: 'bar',
-                x: { field: 'Midpoint', type: 'genomic' },
+                x: { field: 'Midpoint', type: 'genomic', axis: 'none' },
                 y: { field: 'Amount_log_GQ', type: 'quantitative', axis: 'left', range: [0, height - 20]},
                 size: { value: width / 50 },
                 color: { value: '#E69F00' },
@@ -54,7 +54,7 @@ export default function GQbin(
                 y: { field: 'Amount_log_GQ', type: 'quantitative', axis: 'left', range: [0, height - 20] },
                 size: { value: width / 65 },
                 color: { value: '#E69F00' },
-                stroke: {value: 'white'},
+                stroke: {value: '#F6F6F6'},
                 strokeWidth: { value: 0.5 },
                 visibility: [{
                     threshold: 250000000,

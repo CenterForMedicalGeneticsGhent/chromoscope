@@ -77,16 +77,15 @@ export default function parentMapping(
                 strokeWidth : { value: 3 },
                 opacity : { value: 0.9 },
                 size: { value: height - 5 },
-                tooltip: [
-                    { field: 'chromosome', type: 'nominal', alt: 'Chromosome'},
-                    { field: 'POS', type: 'genomic', alt: 'Position' },
-                    { field: 'GT', type: 'nominal', alt: 'Genotype' },
-                    { field: 'Parental Origin', type: 'nominal', alt: 'Parental Origin' },
-                    { field: 'Variant', type: 'nominal', alt: 'Variant' }
-                ]
             }
         ],
-        opacity: { value: 0.9 },
+        tooltip: [
+            { field: 'chromosome', type: 'nominal', alt: 'Chromosome'},
+            { field: 'POS', type: 'genomic', alt: 'Position' },
+            { field: 'GT', type: 'nominal', alt: 'Genotype' },
+            { field: 'Parental Origin', type: 'nominal', alt: 'Parental Origin' },
+            { field: 'Variant', type: 'nominal', alt: 'Variant' }
+        ],
         width,
         height
     };

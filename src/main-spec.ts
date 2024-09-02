@@ -19,9 +19,9 @@ export interface SpecOption extends SampleType {
 }
 
 function generateSpec(opt: SpecOption): GoslingSpec {
-    const { assembly, id, width, breakpoints, bpIntervals, spacing } = opt;
+    const { assembly, width, spacing } = opt;
 
-    const topViewWidth = Math.min(width, 1200);;
+    const topViewWidth = Math.min(width, 600);;
     const midViewWidth = width;
     const bottomViewGap = 19;
     const bottomViewWidth = width / 2.0 - bottomViewGap / 2.0;
@@ -44,37 +44,29 @@ function generateSpec(opt: SpecOption): GoslingSpec {
         },
         views: [
             {
-                arrangement: 'vertical',
+                arrangement: 'horizontal',  // Horizontal arrangement of overview views
                 views: [
-                    {
-
-                        arrangement: 'horizontal',
-                        views: [
-                            ...getOverviewSpec({
-                                ...opt,
-                                width: topViewWidth / 2,
-                                xOffset: topViewXOffset
-                            }),
-                            ...getOverviewLin({
-                                ...opt,
-                                width: topViewWidth / 2 - 40
-                            })
-                        ]
-                    },
-
-                    ...getMidView({
+                    ...getOverviewSpec({
                         ...opt,
-                        width: midViewWidth
+                        width: topViewWidth,
+                        xOffset: 0
+                    }),
+                    ...getOverviewLin({
+                        ...opt,
+                        width: topViewWidth - 40
                     })
-
                 ]
-            }
+            },
+            ...getMidView({
+                ...opt,
+                width: midViewWidth
+            })
         ]
     };
 }
 
 function getOverviewSpec(option: SpecOption): View[] {
-    const { assembly, id,  summary, roi, width, showOverview, xOffset} =
+    const { assembly, id, summary, roi, width, showOverview, xOffset } =
         option;
 
     if (!showOverview) return [];

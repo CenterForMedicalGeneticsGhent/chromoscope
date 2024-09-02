@@ -12,7 +12,7 @@ export default function AFbin(
     return {
         id: `${sampleId}-${mode}-AFbin`,
         title: 'Allele Frequency Spectrum',
-        style: { background: '#FFFFFF', inlineLegend: true },
+        style: { background: '#F6F6F6', inlineLegend: true },
         alignment: 'overlay',
         data: {
             separator: '\t',
@@ -54,7 +54,7 @@ export default function AFbin(
                 y: { field: 'Amount_log_AF', type: 'quantitative', axis: 'left', range: [0, height - 20] },
                 size: { value: width / 65 },
                 color: { value: '#56B4E9' },
-                stroke: {value: 'white'},
+                stroke: {value: '#F6F6F6'},
                 strokeWidth: { value: 0.5 },
                 visibility: [{
                     threshold: 250000000,

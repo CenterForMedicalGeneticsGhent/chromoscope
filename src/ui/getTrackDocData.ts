@@ -10,10 +10,13 @@ import mutations_interactions_2 from '../script/img/popover-images/mutations/int
 import copy_number_variants_interpretation_1 from '../script/img/popover-images/copy_number_variants/interpretation_1.png';
 import copy_number_variants_interpretation_2 from '../script/img/popover-images/copy_number_variants/interpretation_2.png';
 import copy_number_variants_interactions_1 from '../script/img/popover-images/copy_number_variants/interactions_1.png';
-import gains_interpretation_1 from '../script/img/popover-images/gains/interpretation_1.png';
-import gains_interpretation_2 from '../script/img/popover-images/gains/interpretation_2.png';
-import loh_interpretation_1 from '../script/img/popover-images/loh/interpretation_1.png';
-import loh_interpretation_2 from '../script/img/popover-images/loh/interpretation_2.png';
+
+import mendelian_errors_interpretation_1 from '../script/img/popover-images/mendelian-errors/interpretation_1.png'
+import mendelian_errors_interpretation_2 from '../script/img/popover-images/mendelian-errors/interpretation_2.png'
+import mendelian_errors_interactions_1 from '../script/img/popover-images/mendelian-errors/interactions_1.png'
+import mendelian_errors_interactions_2 from '../script/img/popover-images/mendelian-errors/interactions_2.png'
+import parent_mapping_interpretation_1 from '../script/img/popover-images/parent-mapping/interpretation_1.png'
+import parent_mapping_interactions_1 from '../script/img/popover-images/parent-mapping/interactions_1.png'
 
 
 export type Track =
@@ -215,17 +218,43 @@ export const getTrackDocData = (
                 <div class='section interpretation'>
                     <h3>Interpretation</h3>
                     <hr class="header" />
+                    <div class='block text-only'>
+                    <p> <span class="text-yellow"><b>Trio errors</b></span> involve inconsistencies in the child's genotype when considering the combined genotypes of both parents.
+                        <span class="text-skyblue"><b>Father errors</b></span> arise when the child's genotype does not match the expected inheritance from the father.
+                        <span class="text-vermillion"><b>Mother errors</b></span> occur when the child's genotype is inconsistent with the mother's genotype.</p>
+                    </div>
                     <div class="block with-image">
-                        <img src="${gains_interpretation_1}" alt="Gain track." />
+                        <img src="${mendelian_errors_interpretation_1}" alt="Mendelian Errors track." />
                         <div class="text">
-                            <p>Gains are declared in chromosomal regions where total number of copies exceeds 5.</p>
+                            <p>When zoomed out to a scale greater than 1 million base pairs, Mendelian errors are aggregated every 1 million base pairs in the line chart.</p>
                         </div>
                     </div>
                     <hr />
                     <div class="block with-image">
-                        <img src="${gains_interpretation_2}" alt="Region with Gains in Genome View." />
+                        <img src="${mendelian_errors_interpretation_2}" alt="Zoomed In Mendelian Errors track." />
                         <div class="text">
-                            <p>Regions with gains are marked in <span class="text-blue"><b>blue</b></span> on both Genome and Variant Views.</p>
+                            <p>When zoomed in to less than 1 million base pairs, individual Mendelian errors can be seen for each variant.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class='section interactions'>
+                    <h3>Interactions</h3>
+                    <hr class="header" />
+                    <div class="block with-image">
+                        <img src="${mendelian_errors_interactions_1}" alt="Mendelian Errors line chart pop up." />
+                        <div class="text">
+                        <p>
+                            <b>Hover</b> - over a point on the chart reveals the start and stop positions of the bin, as well as the total number of trio, father, and mother errors within that bin.
+                        </p>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="block with-image">
+                        <img src="${mendelian_errors_interactions_2}" alt="Zoomed In Mendelian Errors pop up." />
+                        <div class="text">
+                        <p>
+                            <b>Hover</b> - over the individual mendelian errors to see the position and the amount of trio, father and mother errors.
+                        </p>
                         </div>
                     </div>
                 </div>
@@ -242,22 +271,30 @@ export const getTrackDocData = (
                 <h3>Interpretation</h3>
                 <hr class="header" />
                     <div class='block text-only'>
-                        <p>LOH is declared in regions where a chromosome copy from one of the parents was entirely lost (minor copy number of 0).</p>
+                        <p> 'Parent mapping' is executed for every sample when at least one parent is available. Useful for hetero/iso-uniparental disomy (UPD) detection and to analyze whether aberrations are meiotic or mitotic. Variants of the child/embryo are distributed per parental origin.</p>
                     </div>
                     <div class="block with-image">
-                        <img src="${loh_interpretation_1}" alt="Loss of Heterozygosity region in Variant View." />
+                        <img src="${parent_mapping_interpretation_1}" alt="Parent Mapping Track." />
                         <div class="text">
-                            <p>Regions with LOH are marked in <span class="text-coral"><b>coral</b></span> in Variant View.</p>
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="block with-image">
-                        <img src="${loh_interpretation_2}" alt="Loss of Heterozygosity region in Genome View." />
-                        <div class="text">
-                            <p>Regions with LOH are marked in <span class="text-coral"><b>coral</b></span> in Genome View.</p>
+                            <p><span class="text-darkblue"><b>Dark blue boxes</b></span> - father-derived, homozygous variants. </p>
+                            <p><span class="text-blue"><b>Light blue boxes</b></span> - father-derived, heterozygous variants. </p>
+                            <p><span class="text-vermillion"><b>Vermillion boxes</b></span> - mother-derived, homozygous variants. </p>
+                            <p><span class="text-orange"><b>Orange boxes</b></span> - mother-derived, heterozygous variants. </p>
                         </div>
                     </div>
                 </div>
+                <div class='section interactions'>
+                        <h3>Interactions</h3>
+                        <hr class="header" />
+                        <div class="block with-image">
+                            <img src="${parent_mapping_interactions_1}" alt="Parent Mapping segment details pop up." />
+                            <div class="text">
+                                <p>
+                                    <b>Hover</b> - over the parent mapping segment to see the chromosome, position, genotype, parental origin and variant.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
             </div>`
         },
     ];
