@@ -26,6 +26,7 @@ export type SampleType = {
     haplo?: string;
     roi ?: string;
     baf?: string;
+    baf_server?: string;
     vcf?: string;
     vcfIndex?: string;
     vcf2?: string;
@@ -51,7 +52,8 @@ const samples: SampleType[] = [
         vcfIndex: 'https://somatic-browser-test.s3.amazonaws.com/SNV_test_tumor_normal_with_panel.vcf.gz.tbi',
         vcf2: 'https://somatic-browser-test.s3.amazonaws.com/INDEL_test_tumor_normal_with_panel.vcf.gz',
         vcf2Index: 'https://somatic-browser-test.s3.amazonaws.com/INDEL_test_tumor_normal_with_panel.vcf.gz.tbi',
-        baf: 'https://gist.githubusercontent.com/nicolasdebusschere/e3f768aabdd46d75ab9fcada81f8fbf2/raw/5ac38b33e6acdeea1ba87753a7f448d927aa84b9/baf.tsv',
+        //baf: 'https://gist.githubusercontent.com/nicolasdebusschere/e3f768aabdd46d75ab9fcada81f8fbf2/raw/5ac38b33e6acdeea1ba87753a7f448d927aa84b9/baf.tsv',
+        baf_server: 'http://localhost:8889/api/v1/tileset_info/?d=KXdCqhUlR0WQsNAi9BhPxg',
         cnv: 'https://gist.githubusercontent.com/nicolasdebusschere/86e826877b79ec0ddb20966c78b71da7/raw/d841a32a2b40dc8a0b9df8c5cb6042b79d24fa0f/CNV_sample_2.tsv',
         me: 'https://gist.githubusercontent.com/Maximvan/60a5f23de4b9a1fb8edc2a25ef079075/raw/870af34036718a64b78f058a0e53941418820afc/me_1mbp.csv',
         me2: 'https://gist.githubusercontent.com/Maximvan/3daf900566eeaf198256f42e4a1f73f0/raw/394de4ff86b7b0b0319f7e94c12c42f66e2dad3f/me_detail.csv',

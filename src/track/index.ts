@@ -8,7 +8,7 @@ import mutation from './mutation';
 import indel from './indel';
 import boundary from './boundary';
 import baf from './baf';
-import biAlleleFrequency from './Bi_allel_example';
+import biAlleleFrequency from './Bi_allel_via_higlass';
 import mendelianErrors from './mendelianErrors';
 import haplo from './haplo';
 import mendelianErrors2 from './mendelianErros2';
