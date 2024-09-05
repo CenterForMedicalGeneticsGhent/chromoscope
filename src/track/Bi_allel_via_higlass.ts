@@ -10,7 +10,7 @@ export default function biAlleleFrequency(
 ): OverlaidTracks {
     return {
         id: `${sampleId}-${mode}-bi-allele-frequency`,
-        title: mode === 'small' ? '' : 'Bi Allele Frequency',
+        title: '  Bi Allele Frequency',
         style: { background: '#FFFFFF' },
         data: {
             type: 'beddb',
