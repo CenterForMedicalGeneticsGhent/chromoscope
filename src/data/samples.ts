@@ -42,28 +42,22 @@ export type SampleType = {
 // console.log(samples);
 
 const samples: SampleType[] = [
-    {
-        group: 'default',
-        id: 'Proband_22_10969',
-        cancer: 'Albinism',
-        assembly: 'hg38',
-        vcf: 'https://somatic-browser-test.s3.amazonaws.com/SNV_test_tumor_normal_with_panel.vcf.gz',
-        vcfIndex: 'https://somatic-browser-test.s3.amazonaws.com/SNV_test_tumor_normal_with_panel.vcf.gz.tbi',
-        vcf2: 'https://somatic-browser-test.s3.amazonaws.com/INDEL_test_tumor_normal_with_panel.vcf.gz',
-        vcf2Index: 'https://somatic-browser-test.s3.amazonaws.com/INDEL_test_tumor_normal_with_panel.vcf.gz.tbi',
-        baf: 'https://gist.githubusercontent.com/nicolasdebusschere/e3f768aabdd46d75ab9fcada81f8fbf2/raw/5ac38b33e6acdeea1ba87753a7f448d927aa84b9/baf.tsv',
-        cnv: 'https://gist.githubusercontent.com/nicolasdebusschere/86e826877b79ec0ddb20966c78b71da7/raw/d841a32a2b40dc8a0b9df8c5cb6042b79d24fa0f/CNV_sample_2.tsv',
-        me: 'https://gist.githubusercontent.com/Maximvan/60a5f23de4b9a1fb8edc2a25ef079075/raw/870af34036718a64b78f058a0e53941418820afc/me_1mbp.csv',
-        me2: 'https://gist.githubusercontent.com/Maximvan/3daf900566eeaf198256f42e4a1f73f0/raw/394de4ff86b7b0b0319f7e94c12c42f66e2dad3f/me_detail.csv',
-        pm: 'https://gist.githubusercontent.com/Maximvan/8c30172d4852ae16ad346a728073546b/raw/edb67b4144840387fb3acf32d01719548e4e6e2a/parent_mapping.csv',
-        haplo: 'https://gist.githubusercontent.com/nicolasdebusschere/368bab39fb2704e2fd7c314b0fb438b3/raw/ac5c7f86235e4c2bcc051ef802c090f5455bcb7d/haplo.tsv',
-        roi: 'https://gist.githubusercontent.com/Maximvan/6d47f196bcac0f28c64b2e491c231a7f/raw/d27d8d1da4531b7740457afba6471de9d74a59fb/ROI.csv',
-        note: 'CNV profile - ASCAT. SVs - Sentieon. Mutations and indels - Sentieon',
-        binStats: 'https://gist.githubusercontent.com/Maximvan/2095620fd812dc3a708fae3905d16573/raw/e25e46b348da485c8ea0ae10303a0bedac854ebe/binned_stats.tsv',
-        summary: 'https://gist.githubusercontent.com/Maximvan/e2ad6bf0bb0ad707c9ec8a1d19684ee2/raw/24e9834c6fce7a79e7f417b69107e578a15d1ef8/chromozome1.csv',
-        sample: 'D2409912,D2409911,D2320995',
-        thumbnail: SRR7890905
-    }
+   
+        {
+            "group": "default",
+            "id": "D2323937",
+            "assembly": "hg38",
+            "cancer": "disease1",
+            "vcf": "https://s3.eu-central-003.backblazeb2.com/InternshipCMGGbucket/Proband_21_20054/Proband_21_20054-gatk-haplotype-joint-annotated_K2400391_K2400392_K2400393.vcf.gz?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00341032759cd2e0000000001%2F20240904%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240904T102738Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=3d0735dea22920549d322450ef2c7b5abfb2b2d28fa9af4f909954cfb5850269",
+            "vcfIndex": "https://s3.eu-central-003.backblazeb2.com/InternshipCMGGbucket/Proband_21_20054/Proband_21_20054-gatk-haplotype-joint-annotated_K2400391_K2400392_K2400393.vcf.gz.tbi?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00341032759cd2e0000000001%2F20240904%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240904T102738Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=27e13c71d52945c1e5936f7d354f9705eb3353119757494bccd92d264955a807",
+            "baf": "https://s3.eu-central-003.backblazeb2.com/InternshipCMGGbucket/Proband_21_20054/D2201410_BAF_K2400391.tsv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00341032759cd2e0000000001%2F20240904%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240904T102738Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=bd6a9797ff6eed3a2dfcebda9fab197bbec43604627f1f4a051d5a4c4a84a00d",
+            "cnv": "https://s3.eu-central-003.backblazeb2.com/InternshipCMGGbucket/Proband_21_20054/D2201410_output_combined_CNV_K2400391.tsv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00341032759cd2e0000000001%2F20240904%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240904T102738Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=4a2128df70ed53b92c0dae854966d5f3ca840044d500de6a3fe4405460080ec2",
+            "me": "https://s3.eu-central-003.backblazeb2.com/InternshipCMGGbucket/Proband_21_20054/D2201410_windowed_errors_K2400391.csv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00341032759cd2e0000000001%2F20240904%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240904T102738Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=514ea32b7641eab5d1e87b75b5054e77dd5fae41bd84814b0731e04de234df06",
+            "me2": "https://s3.eu-central-003.backblazeb2.com/InternshipCMGGbucket/Proband_21_20054/D2323937_man_err_frame_K2400391.csv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00341032759cd2e0000000001%2F20240904%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240904T102738Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=3419c4b9d7f2406ef42cd89712b5187fde2f607af865fc814d2b1366f7e91097",
+            "pm": "https://s3.eu-central-003.backblazeb2.com/InternshipCMGGbucket/Proband_21_20054/D2323937_pm_tracks_K2400391.csv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00341032759cd2e0000000001%2F20240904%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240904T102738Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=8294333d38e702d073d00d7afd30e873d567c44b26605bc872f11e0784108504",
+            "haplo": "https://s3.eu-central-003.backblazeb2.com/InternshipCMGGbucket/Proband_21_20054/D2201410_output_dat_haplo_K2400391_K2400392_K2400393.tsv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00341032759cd2e0000000001%2F20240904%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240904T102738Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=ee61f695d0ab67421046cbf3bdcc406f6297c46b7476ba1f1703b640558c996f",
+            "binStats": "https://s3.eu-central-003.backblazeb2.com/InternshipCMGGbucket/Proband_21_20054/D2201410_variant_bins_K2400391.tsv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00341032759cd2e0000000001%2F20240904%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240904T102738Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=38e5c63c6697daeacef8404d14374926ca1430fd2a3e22852a43a4264701fd47"
+        }
 ];
 
 export default samples;
