@@ -4,7 +4,7 @@
 This folder contains scripts that are used to process datasets and for generating AWS presigned URLS for a cohort.
 
 
-## S3_Bucket_Query_to _hromoscope
+## S3_Bucket_Query_to_chromoscope
 
 This folder contains scripts for querying a locally hosted S3 bucket, selecting files of interest, and either generating a `config.json` file or visualizing the data directly in Chromoscope using the external URL parameter.
 
