@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { SampleType } from '../data/samples';
 import { ICONS } from '../icon';
+import mendelianErrors2 from '../track/mendelianErros2';
 
 type SampleConfig = Partial<Omit<SampleType, 'group' | 'cnFields' | 'note' | 'drivers' | 'assembly' | 'thumbnail'>> & {
     drivers?: string;
@@ -23,16 +24,19 @@ function isValidUrl(str: string) {
 const testOkay = {
     id: (_: SampleConfig) => _.id,
     cancer: (_: SampleConfig) => _.cancer,
-    sv: (_: SampleConfig) => isValidUrl(_.sv),
     // optional
     cnv: (_: SampleConfig) => !_.cnv || isValidUrl(_.cnv),
+    baf: (_: SampleConfig) => !_.baf || isValidUrl(_.baf),
+    BAFonhiglass_server: (_: SampleConfig) => !_.baf_server || isValidUrl(_.baf_server),
+    haplo: (_: SampleConfig) => !_.haplo || isValidUrl(_.haplo),
+    me: (_: SampleConfig) => !_.me || isValidUrl(_.me),
+    me2: (_: SampleConfig) => !_.me2 || isValidUrl(_.me2),
+    pm: (_: SampleConfig) => !_.pm || isValidUrl(_.pm),
     drivers: (_: SampleConfig) => !_.drivers || isValidUrl(_.drivers),
     vcf: (_: SampleConfig) => !_.vcf || isValidUrl(_.vcf),
     vcfIndex: (_: SampleConfig) => !_.vcfIndex || isValidUrl(_.vcfIndex),
     vcf2: (_: SampleConfig) => !_.vcf2 || isValidUrl(_.vcf2),
-    vcf2Index: (_: SampleConfig) => !_.vcf2Index || isValidUrl(_.vcf2Index),
-    bam: (_: SampleConfig) => !_.bam || isValidUrl(_.bam),
-    bai: (_: SampleConfig) => !_.bai || isValidUrl(_.bai)
+    vcf2Index: (_: SampleConfig) => !_.vcf2Index || isValidUrl(_.vcf2Index)
 };
 
 export default function SampleConfigForm(props: { onAdd: (config: ValidSampleConfig) => void }) {
@@ -142,16 +146,83 @@ export default function SampleConfigForm(props: { onAdd: (config: ValidSampleCon
                 />
 
                 <div className="menu-subtitle">
-                    SV<sup>*</sup> <small>(.bedpe)</small>
+                    Baf<sup>*</sup> <small>(.tsv)</small>
                 </div>
                 {/* <span className="menu-subtitle-right">Required</span> */}
                 <input
                     type="text"
-                    className={testOkay.sv(sampleConfig) ? 'menu-text-input' : 'menu-text-input-invalid'}
+                    className={testOkay.baf(sampleConfig) ? 'menu-text-input' : 'menu-text-input-invalid'}
                     placeholder="https://..."
                     required
-                    onChange={e => setSampleConfig({ ...sampleConfig, sv: e.currentTarget.value })}
-                    value={sampleConfig.sv}
+                    onChange={e => setSampleConfig({ ...sampleConfig, baf: e.currentTarget.value })}
+                    value={sampleConfig.baf}
+                />
+
+                <div className="menu-subtitle">
+                    Baf (higlass server)<sup>*</sup> <small>(.beddb)</small>
+                </div>
+                {/* <span className="menu-subtitle-right">Required</span> */}
+                <input
+                    type="text"
+                    className={
+                        testOkay.BAFonhiglass_server(sampleConfig) ? 'menu-text-input' : 'menu-text-input-invalid'
+                    }
+                    placeholder="https://..."
+                    required
+                    onChange={e => setSampleConfig({ ...sampleConfig, baf_server: e.currentTarget.value })}
+                    value={sampleConfig.baf_server}
+                />
+
+                <div className="menu-subtitle">
+                    Haplo<sup>*</sup> <small>(.tsv)</small>
+                </div>
+                {/* <span className="menu-subtitle-right">Required</span> */}
+                <input
+                    type="text"
+                    className={testOkay.haplo(sampleConfig) ? 'menu-text-input' : 'menu-text-input-invalid'}
+                    placeholder="https://..."
+                    required
+                    onChange={e => setSampleConfig({ ...sampleConfig, haplo: e.currentTarget.value })}
+                    value={sampleConfig.haplo}
+                />
+
+                <div className="menu-subtitle">
+                    mendelian error<sup>*</sup> <small>(.csv)</small>
+                </div>
+                {/* <span className="menu-subtitle-right">Required</span> */}
+                <input
+                    type="text"
+                    className={testOkay.me(sampleConfig) ? 'menu-text-input' : 'menu-text-input-invalid'}
+                    placeholder="https://..."
+                    required
+                    onChange={e => setSampleConfig({ ...sampleConfig, me: e.currentTarget.value })}
+                    value={sampleConfig.me}
+                />
+
+                <div className="menu-subtitle">
+                    mendelian error details<sup>*</sup> <small>(.csv)</small>
+                </div>
+                {/* <span className="menu-subtitle-right">Required</span> */}
+                <input
+                    type="text"
+                    className={testOkay.me2(sampleConfig) ? 'menu-text-input' : 'menu-text-input-invalid'}
+                    placeholder="https://..."
+                    required
+                    onChange={e => setSampleConfig({ ...sampleConfig, me2: e.currentTarget.value })}
+                    value={sampleConfig.me2}
+                />
+
+                <div className="menu-subtitle">
+                    parent mapping<sup>*</sup> <small>(.csv)</small>
+                </div>
+                {/* <span className="menu-subtitle-right">Required</span> */}
+                <input
+                    type="text"
+                    className={testOkay.pm(sampleConfig) ? 'menu-text-input' : 'menu-text-input-invalid'}
+                    placeholder="https://..."
+                    required
+                    onChange={e => setSampleConfig({ ...sampleConfig, pm: e.currentTarget.value })}
+                    value={sampleConfig.pm}
                 />
 
                 <div className="menu-subtitle">
@@ -221,27 +292,6 @@ export default function SampleConfigForm(props: { onAdd: (config: ValidSampleCon
                     value={sampleConfig.vcf2Index}
                 />
 
-                <div className="menu-subtitle">
-                    Read Alignment <small>(.bam)</small>
-                </div>
-                <input
-                    type="text"
-                    className={testOkay.bam(sampleConfig) ? 'menu-text-input' : 'menu-text-input-invalid'}
-                    placeholder="https://..."
-                    onChange={e => setSampleConfig({ ...sampleConfig, bam: e.currentTarget.value })}
-                    value={sampleConfig.bam}
-                />
-
-                <div className="menu-subtitle">
-                    Read Alignment Index <small>(.bai)</small>
-                </div>
-                <input
-                    type="text"
-                    className={testOkay.bai(sampleConfig) ? 'menu-text-input' : 'menu-text-input-invalid'}
-                    placeholder="https://..."
-                    onChange={e => setSampleConfig({ ...sampleConfig, bai: e.currentTarget.value })}
-                    value={sampleConfig.bai}
-                />
                 <div className="menu-subtitle" style={{ float: 'right' }}>
                     * Required Fields
                 </div>
@@ -253,7 +303,6 @@ export default function SampleConfigForm(props: { onAdd: (config: ValidSampleCon
                             id: '7a921087-8e62-4a93-a757-fd8cdbe1eb8f',
                             cancer: 'Ovarian',
                             assembly: 'hg19',
-                            sv: 'https://s3.amazonaws.com/gosling-lang.org/data/SV/7a921087-8e62-4a93-a757-fd8cdbe1eb8f.pcawg_consensus_1.6.161022.somatic.sv.bedpe',
                             cnv: 'https://s3.amazonaws.com/gosling-lang.org/data/SV/7a921087-8e62-4a93-a757-fd8cdbe1eb8f.consensus.20170119.somatic.cna.annotated.txt'
                         });
                     }}
