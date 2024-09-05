@@ -12,6 +12,7 @@ export default function getMidView(option: SpecOption): View[] {
         vcfIndex,
         cnv,
         baf,
+        baf_server,
         me,
         me2,
         pm,
@@ -84,6 +85,9 @@ export default function getMidView(option: SpecOption): View[] {
                 ...(!baf
                     ? []
                     : [tracks.baf(id, baf, width, 240, 'mid')]),
+                ...(!baf_server
+                    ? []
+                    :[tracks.biAlleleFrequency(id, baf_server, width, 240, 'mid')]),
                 ...(!haplo
                     ? []
                     : [tracks.haplo(id, haplo, width, 300, 'mid'),
